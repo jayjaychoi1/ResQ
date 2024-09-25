@@ -1,0 +1,26 @@
+<form method="post" id="translateForm">
+    {% csrf_token %}
+    <textarea id="english_text" name="text"></textarea>
+    <button type="submit">Translate</button>
+</form>
+<p>Translation: <span id="korean_text"></span></p>
+
+<script>
+document.getElementById('translateForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const text = document.getElementById('english_text').value;
+    
+    fetch('/translate/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: new URLSearchParams({'text': text})
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('korean_text').innerText = data.translated_text;
+    });
+});
+</script>
