@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Translate</title>
+</head>
+<body>
+    <h1>Translation Result</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <textarea name="text" rows="4" cols="50" placeholder="Enter text to translate"></textarea>
+        <br><br>
+        <input type="submit" value="Translate">
+    </form>
+    
+    <h2>Translated Text:</h2>
+    <p>{{ translated_text }}</p>
+</body>
+</html>
