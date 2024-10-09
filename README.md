@@ -3,23 +3,7 @@ resq_be (Django Backend):
 
 "resq_be" is a Django-based backend for an emergency response application. It provides endpoints for starting an emergency call and sending "Yes" or "No" responses.
 
- Folder Structure
-
-resq_be/
-├── core/                    # Django app for core functionalities
-│   ├── migrations/          # Database migration files
-│   ├── templates/           # HTML templates
-│   ├── static/              # Static files (e.g., CSS, JS)
-│   ├── __init__.py          # Initializes the Django app
-│   ├── admin.py             # Django admin configurations
-│   ├── apps.py              # App configurations
-│   ├── models.py            # Database models
-│   ├── tests.py             # Test cases
-│   ├── views.py             # View functions for handling requests
-│   └── urls.py              # URL routing for the app
-├── db.sqlite3               # SQLite database file
-├── manage.py                # Django command-line utility
-└── requirements.txt         # List of Python dependencies
+ Folder Structure:
 
 <img width="559" alt="Screenshot 2024-10-09 at 8 17 11 PM" src="https://github.com/user-attachments/assets/749311cb-467d-4a9a-887e-3c6024cab277">
 
@@ -78,17 +62,7 @@ db.sqlite3
 
 "resq_ios" is a Swift-based iOS app built with SwiftUI. It allows users to initiate emergency calls and send "Yes" or "No" responses. It integrates with the Django backend ("resq_be") to record and handle emergency situations.
 
- Folder Structure
-
-resq_ios/
-├── resq_ios/                # Main app folder
-│   ├── ContentView.swift    # Main SwiftUI view for the app
-│   ├── Assets/              # App assets (images, etc.)
-│   ├── Info.plist           # App configuration file
-│   └── resq_iosApp.swift    # App entry point
-├── resq_iosTests/           # Unit test targets
-├── resq_iosUITests/         # UI test targets
-       
+ Folder Structure:
        
 <img width="519" alt="Screenshot 2024-10-09 at 8 16 18 PM" src="https://github.com/user-attachments/assets/14929471-ac52-4819-8764-e5fb477b0a80">
 
