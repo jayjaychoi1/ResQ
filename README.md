@@ -21,6 +21,7 @@ resq_be/
 ├── manage.py                # Django command-line utility
 └── requirements.txt         # List of Python dependencies
 
+![Uploading Screenshot 2024-10-09 at 8.15.47 PM.png…]()
 
  Prerequisites
 - Python 3.x
@@ -87,6 +88,9 @@ resq_ios/
 ├── resq_iosTests/           # Unit test targets
 ├── resq_iosUITests/         # UI test targets
        
+       
+<img width="519" alt="Screenshot 2024-10-09 at 8 16 18 PM" src="https://github.com/user-attachments/assets/14929471-ac52-4819-8764-e5fb477b0a80">
+
 Prerequisites:
 - Xcode (latest version recommended)
 - macOS
