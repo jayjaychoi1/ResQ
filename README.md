@@ -21,7 +21,8 @@ resq_be/
 ├── manage.py                # Django command-line utility
 └── requirements.txt         # List of Python dependencies
 
-![Uploading Screenshot 2024-10-09 at 8.15.47 PM.png…]()
+<img width="559" alt="Screenshot 2024-10-09 at 8 17 11 PM" src="https://github.com/user-attachments/assets/749311cb-467d-4a9a-887e-3c6024cab277">
+
 
  Prerequisites
 - Python 3.x
