@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Emergency App</h2>
+
+    <!-- Call Button -->
+    <button id="callButton">Start Emergency Call</button>
+
+    <!-- Yes/No Buttons -->
+    <div id="responseButtons" style="display:none;">
+        <p>If you are unable to speak, indicate your response:</p>
+        <button id="yesButton">Yes</button>
+        <button id="noButton">No</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Request GPS and Audio Permissions
+            let userLocation = 'Unknown';
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        userLocation = `Lat: ${latitude}, Long: ${longitude}`;
+                        console.log(`Location: ${userLocation}`);
+                    },
+                    (error) => {
+                        console.error("GPS Permission Denied");
+                    }
+                );
+            }
+
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(() => console.log("Audio permission granted"))
+                .catch(() => console.error("Audio permission denied"));
+
+            // Handle Emergency Call
+            document.getElementById('callButton').addEventListener('click', () => {
+                fetch('/start_call/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ location: userLocation })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Emergency call started') {
+                        alert(data.message);
+                        document.getElementById('responseButtons').style.display = 'block';
+                    } else {
+                        alert('Failed to start emergency call.');
+                    }
+                })
+                .catch(error => console.error('Error starting emergency call:', error));
+            });
+
+            // Handle Yes Response
+            document.getElementById('yesButton').addEventListener('click', () => {
+                sendResponse('yes');
+            });
+
+            // Handle No Response
+            document.getElementById('noButton').addEventListener('click', () => {
+                sendResponse('no');
+            });
+
+            // Function to send Yes/No response
+            function sendResponse(response) {
+                fetch('/yes_no_response/1/', { 
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ response })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                    } else {
+                        alert('Failed to record response.');
+                    }
+                })
+                .catch(error => console.error('Error recording response:', error));
+            }
+        });
+    </script>
+{% endblock %}
+
