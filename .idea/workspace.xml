@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="d974bb36-7892-44b4-924c-5a56416115f1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/gpt-translator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gpt-translator.py" beforeDir="false" afterPath="$PROJECT_DIR$/gpt-translator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/normalized_reference_sentences.txt" beforeDir="false" afterPath="$PROJECT_DIR$/normalized_reference_sentences.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,22 +28,22 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "jywn"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;jywn&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/jayjaychoi1/ResQ.git",
-    "accountId": "2d5aa1a7-faf6-44ce-9c13-dfbcc000746f"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/jayjaychoi1/ResQ.git&quot;,
+    &quot;accountId&quot;: &quot;2d5aa1a7-faf6-44ce-9c13-dfbcc000746f&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 2
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2nZ8Lr0zQKsD3UrAQ2cjpANAvfg" />
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
@@ -47,11 +53,21 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/user/PycharmProjects/ResQ",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\user\PycharmProjects\ResQ" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="ResQ" type="Python.DjangoServer" factoryName="Django server">
       <module name="ResQ" />
@@ -94,11 +110,36 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729169188605</updated>
-      <workItem from="1729169191234" duration="97000" />
+      <workItem from="1729169191234" duration="538000" />
+      <workItem from="1729215799115" duration="5111000" />
+      <workItem from="1729235664458" duration="1314000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/gpt-translator" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
