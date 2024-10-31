@@ -4,12 +4,12 @@ from twilio.jwt.access_token.grants import VoiceGrant
 
 # required for all twilio access tokens
 # To set up environmental variables, see http://twil.io/secure
-account_sid = 'AC9b60d2ccd19db8a02ce918d4989a7849'
-api_key = 'SK96ee304908f2441c297ce8944bf038e4'
-api_secret = 'qdQ03lADDblQpntbD1xZ0BqINb5UebPH'
+account_sid = ''
+api_key = ''
+api_secret = ''
 
 # required for Voice grant
-outgoing_application_sid = 'AP6bfd4af5d54dfdb8ee7becbc99c407a8'
+outgoing_application_sid = ''
 identity = 'user'
 
 # Create access token with credentials

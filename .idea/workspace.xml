@@ -5,22 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d974bb36-7892-44b4-924c-5a56416115f1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/resq_be/core/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resq_be/core/utils/twilio_token.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testCaller/callTest.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/testCaller/grantTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adjust.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluator/adjust.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/english_sentences.txt" beforeDir="false" afterPath="$PROJECT_DIR$/evaluator/english_sentences.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluation_of_translation.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluator/evaluation_of_translation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gpt-translator.py" beforeDir="false" afterPath="$PROJECT_DIR$/evaluator/gpt-translator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/normalized_reference_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/normalized_translated_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/resq_be/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/resq_be/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testCaller/grantTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/testCaller/grantTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -162,7 +148,7 @@
       <workItem from="1729670792646" duration="83000" />
       <workItem from="1730089762732" duration="334000" />
       <workItem from="1730254227254" duration="3082000" />
-      <workItem from="1730346992278" duration="4862000" />
+      <workItem from="1730346992278" duration="6039000" />
     </task>
     <servers />
   </component>
