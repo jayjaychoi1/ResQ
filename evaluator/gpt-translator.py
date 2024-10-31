@@ -16,8 +16,8 @@ for parsed in parsedSentences:
     completion = client.chat.completions.create( # call gpt-4
         model="gpt-4o", # AI model
         messages=[
-            {"role": "system", "content": "Translate the following English text to Korean. When translating from English to Korean, use polite language in a friendly and natural 'haeyo-che' (해요체) style. Ensure that the tone remains respectful but informal and approachable."}, # Order model how to work
-            {"role": "user", "content": parsed} # send parsed sentence
+            {"role": "system", "content": "Translate any following English text directly to Korean without further questions or comments. Do not respond in any other way."},
+            {"role": "user", "content": "Translate the following text: " + parsed}
         ]
     )
     translatedSentence = completion.choices[0].message.content # rename it (copy value -> easy to understand)
