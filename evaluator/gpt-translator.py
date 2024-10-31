@@ -1,5 +1,13 @@
 from openai import OpenAI
 import re
+
+
+def adjust_formality(sentence):
+    # Remove the polite ending '요' if present
+    if sentence.endswith("요"):
+        return sentence[:-1]
+    return sentence
+
 def remove_punctuation(sentence):
     # Remove punctuation marks (!, ., ?)
     return re.sub(r'[!.?]', '', sentence)
@@ -16,12 +24,20 @@ for parsed in parsedSentences:
     completion = client.chat.completions.create( # call gpt-4
         model="gpt-4o", # AI model
         messages=[
+<<<<<<< HEAD:evaluator/gpt-translator.py
             {"role": "system", "content": "Translate any following English text directly to Korean without further questions or comments. Do not respond in any other way."},
             {"role": "user", "content": "Translate the following text: " + parsed}
+=======
+            {"role": "system", "content": "You are a English to Korean translator."}, # Order model how to work
+            {"role": "user", "content": parsed} # send parsed sentence
+>>>>>>> parent of d56ee9f (gpt-order-fixed):gpt-translator.py
         ]
     )
     translatedSentence = completion.choices[0].message.content # rename it (copy value -> easy to understand)
-    finalSentences.append(translatedSentence) # adjust and append to final list
+    print("before: ", translatedSentence)
+    finalSentence = adjust_formality(remove_punctuation(translatedSentence))
+    finalSentences.append(finalSentence) # adjust and append to final list
+    print("after: ", finalSentence)
 
 with open("gpt_normalized_translated_sentences.txt", "w", encoding="utf-8") as f:
     for finalSentence in finalSentences:
