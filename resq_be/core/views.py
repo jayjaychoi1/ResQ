@@ -1,11 +1,10 @@
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
-
-# Order
-# 분할 파일 받아서 -> ai 전송 -> response 전송
-
+from twilio.twiml.voice_response import VoiceResponse
+from django.http import JsonResponse
+from .utils.twilio_token import create_twilio_access_token
 # STT
 # As mentor said, we have to parse with full sentence.
 # real-time translation is not real-time
@@ -14,8 +13,8 @@ import json
 # TODO
 # Audio Recording Storage: Save recorded audio files securely on the server and link them to each call entry in the database.
 # Database Improvements: Add a model to store call recordings, locations, timestamps, and call statuses, including fields for audio file paths and Yes/No responses.
-# Real-Time Location Updates: Continuously update and store the user's location during the call.
-#
+# Real-Time Location Updates: Continuously update and store the user's location during the call. -> GeolocationAPI, watchPosition in frontend
+
 def home(request):
     return render(request, 'main.html')
 
@@ -36,3 +35,19 @@ def yes_no_response(request, call_id):
         if response in ['yes', 'no']:
             return JsonResponse({'message': f'Response "{response}" recorded'})
         return JsonResponse({'error': 'Invalid response'}, status=400)
+
+@csrf_exempt
+def getTwiMLView(request):
+    response = VoiceResponse()
+    # insert target phone number
+    response.dial("")
+    # return running XML(TwiML)
+    return HttpResponse(response.to_xml(), content_type='text/xml')
+
+@csrf_exempt
+def get_access_token(request):
+    identity = 'user'
+    # create access token (ref. core/utils/twilio_token.py)
+    token = create_twilio_access_token(identity)
+    # JWToken as Json
+    return JsonResponse({"access_token": token})

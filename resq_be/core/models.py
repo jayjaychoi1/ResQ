@@ -6,6 +6,7 @@ class EmergencyCall(models.Model):
     recorded_audio = models.FileField(upload_to='recordings/', blank=True, null=True)
     responses = models.TextField(blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
+    access_token = models.CharField(max_length=255, blank=True, null=True) # access token for making call via Twilio
 
     def __str__(self):
         return f'Call {self.id} - {self.call_status}'
