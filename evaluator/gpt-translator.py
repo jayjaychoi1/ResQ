@@ -1,7 +1,6 @@
 from openai import OpenAI
 import re
 
-
 def adjust_formality(sentence):
     # Remove the polite ending '요' if present
     if sentence.endswith("요"):
@@ -11,36 +10,42 @@ def adjust_formality(sentence):
 def remove_punctuation(sentence):
     # Remove punctuation marks (!, ., ?)
     return re.sub(r'[!.?]', '', sentence)
-
+# warning: insert key
 client = OpenAI(
-) # warning: insert key
+)
 
-with open("english_sentences.txt", "r", encoding="utf-8") as f: # open original text
-    parsedSentences = [line.strip() for line in f.readlines()] # parse sentences and assign in parsedSentences
-
-finalSentences = [] # empty list for translated-adjusted sentences
+# open original text
+with open("english_sentences.txt", "r", encoding="utf-8") as f:
+    # parse sentences and assign in parsedSentences
+    parsedSentences = [line.strip() for line in f.readlines()]
+# empty list for translated-adjusted sentences
+finalSentences = []
 
 for parsed in parsedSentences:
-    completion = client.chat.completions.create( # call gpt-4
-        model="gpt-4o", # AI model
+    # call gpt-4
+    completion = client.chat.completions.create(
+        # AI model
+        model="gpt-4o",
         messages=[
-<<<<<<< HEAD:evaluator/gpt-translator.py
             {"role": "system", "content": "Translate any following English text directly to Korean without further questions or comments. Do not respond in any other way."},
-            {"role": "user", "content": "Translate the following text: " + parsed}
-=======
-            {"role": "system", "content": "You are a English to Korean translator."}, # Order model how to work
-            {"role": "user", "content": parsed} # send parsed sentence
->>>>>>> parent of d56ee9f (gpt-order-fixed):gpt-translator.py
+            {"role": "user", "content": "Translate the following text: " + parsed},
+            # Order model how to work
+            {"role": "system", "content": "You are a English to Korean translator."},
+            # send parsed sentence
+            {"role": "user", "content": parsed}
         ]
     )
-    translatedSentence = completion.choices[0].message.content # rename it (copy value -> easy to understand)
+    # rename it (copy value -> easy to understand)
+    translatedSentence = completion.choices[0].message.content
     print("before: ", translatedSentence)
     finalSentence = adjust_formality(remove_punctuation(translatedSentence))
-    finalSentences.append(finalSentence) # adjust and append to final list
+    # adjust and append to final list
+    finalSentences.append(finalSentence)
     print("after: ", finalSentence)
 
 with open("gpt_normalized_translated_sentences.txt", "w", encoding="utf-8") as f:
     for finalSentence in finalSentences:
-        f.write(finalSentence.lower() + "\n") # record it
+        # record it
+        f.write(finalSentence.lower() + "\n")
 
 print("done!")
