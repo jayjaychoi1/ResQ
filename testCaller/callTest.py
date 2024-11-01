@@ -10,14 +10,14 @@
 
 from twilio.rest import Client
 
-account_sid = "AC9b60d2ccd19db8a02ce918d4989a7849"
-auth_token = "71cdc967f7d3a2dd593b31c4ce4fc8a0"
+account_sid = ""
+auth_token = ""
 client = Client(account_sid, auth_token)
 
 call = client.calls.create(
-    from_="+18582076378",
-    to="+821063461851",
-    url="http://demo.twilio.com/docs/voice.xml",
+    from_="+",
+    to="+",
+    url="",
 )
 
 print(call.sid)
