@@ -1,9 +1,8 @@
+import json
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
-import json
-from twilio.twiml.voice_response import VoiceResponse
-from django.http import JsonResponse
+from twilio.twiml.voice_response import VoiceResponse, Start
 from .utils.twilio_token import create_twilio_access_token
 # STT
 # As mentor said, we have to parse with full sentence.
@@ -37,11 +36,15 @@ def yes_no_response(request, call_id):
         return JsonResponse({'error': 'Invalid response'}, status=400)
 
 @csrf_exempt
-def getTwiMLView(request):
+def get_twiml_view(request):
+    # add response tag
     response = VoiceResponse()
-    # insert target phone number
-    response.dial("")
-    # return running XML(TwiML)
+    # add start tag
+    response_start = Start()
+    # add stream tag, url: websocket server
+    response_start.stream(url="")
+    # response/start
+    response.append(response_start)
     return HttpResponse(response.to_xml(), content_type='text/xml')
 
 @csrf_exempt
@@ -51,3 +54,5 @@ def get_access_token(request):
     token = create_twilio_access_token(identity)
     # JWToken as Json
     return JsonResponse({"access_token": token})
+
+
