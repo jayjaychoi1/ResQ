@@ -7,5 +7,6 @@ urlpatterns = [
     path('yes_no_response/<int:call_id>/', views.yes_no_response, name='yes_no_response'),
     path('getTwiML/', views.get_twiml_view, name='getTwiML'),
     path('getAccessToken/', views.get_access_token, name='getAccessToken'),
+    path('demo/', views.demo, name='demo'),
 ]
 

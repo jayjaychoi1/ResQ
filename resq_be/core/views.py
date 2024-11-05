@@ -3,6 +3,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
 from twilio.twiml.voice_response import VoiceResponse, Start
+from twilio.rest import Client
 from .utils.twilio_token import create_twilio_access_token
 # STT
 # As mentor said, we have to parse with full sentence.
@@ -39,12 +40,13 @@ def yes_no_response(request, call_id):
 def get_twiml_view(request):
     # add response tag
     response = VoiceResponse()
-    # add start tag
-    response_start = Start()
-    # add stream tag, url: websocket server
-    response_start.stream(url="")
+    response.dial("")  # 고정된 전화번호로 연결
+    # # add start tag
+    # response_start = Start()
+    # # add stream tag, url: websocket server
+    # response_start.stream(url="")
     # response/start
-    response.append(response_start)
+    # response.append(response_start)
     return HttpResponse(response.to_xml(), content_type='text/xml')
 
 @csrf_exempt
@@ -52,7 +54,52 @@ def get_access_token(request):
     identity = 'user'
     # create access token (ref. core/utils/twilio_token.py)
     token = create_twilio_access_token(identity)
+    print(token)
     # JWToken as Json
     return JsonResponse({"access_token": token})
 
+# problems on secure
+# anyone can access to urls -> wasted token occurs
 
+# Download the helper library from https://www.twilio.com/docs/python/install
+# import os
+# from twilio.rest import Client
+# @csrf_exempt
+# def demo(request):
+#     # Find your Account SID and Auth Token at twilio.com/console
+#     # and set the environment variables. See http://twil.io/secure
+#     account_sid = ""
+#     auth_token = ""
+#     client = Client(account_sid, auth_token)
+#
+#     call = client.calls.create(
+#         from_="",
+#         to="",
+#         url="",
+#     )
+#
+#     print(call.sid)
+
+
+from twilio.rest import Client
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def demo(request):
+    if request.method == "POST":
+        account_sid = ""  # 올바른 Account SID
+        auth_token = ""      # 올바른 Auth Token
+        client = Client(account_sid, auth_token)             # Client 초기화 시 정확한 인수 사용
+
+        try:
+            call = client.calls.create(
+                from_="",
+                to="",
+                url=""
+            )
+            return JsonResponse({"status": "success", "call_sid": call.sid})
+        except Exception as e:
+            return JsonResponse({"status": "failed", "error": str(e)}, status=500)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
