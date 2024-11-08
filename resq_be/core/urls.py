@@ -1,12 +1,12 @@
 from django.urls import path
 from . import views
+from .views import GetTwimlView
 
 urlpatterns = [
     path('', views.home, name='home'),
     path('start_call/', views.start_call, name='start_call'),
     path('yes_no_response/<int:call_id>/', views.yes_no_response, name='yes_no_response'),
-    path('getTwiML/', views.get_twiml_view, name='getTwiML'),
-    path('getAccessToken/', views.get_access_token, name='getAccessToken'),
-    path('demo/', views.demo, name='demo'),
+    path('get_twiml/', GetTwimlView.as_view(), name='get_twiml'),
+    path('get_access_token/', views.get_access_token, name='get_access_token'),
 ]
 
