@@ -6,18 +6,10 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from twilio.twiml.voice_response import VoiceResponse, Start
 from .utils.twilio_token import create_twilio_access_token
-# STT
-# As mentor said, we have to parse with full sentence.
-# real-time translation is not real-time
-# cause its PREDICTION, not translation.
-
 # TODO
 # Audio Recording Storage: Save recorded audio files securely on the server and link them to each call entry in the database.
 # Database Improvements: Add a model to store call recordings, locations, timestamps, and call statuses, including fields for audio file paths and Yes/No responses.
 # Real-Time Location Updates: Continuously update and store the user's location during the call. -> GeolocationAPI, watchPosition in frontend
-
-# problems on secure
-# anyone can access to urls -> wasted token occurs
 
 def home(request):
     return render(request, 'main.html')
@@ -40,17 +32,16 @@ def yes_no_response(request, call_id):
         return JsonResponse({'message': f'Response "{response}" recorded'})
     return JsonResponse({'error': 'Invalid response'}, status=400)
 
-@csrf_exempt
 class GetTwimlView(APIView):
     """
     Twilio server access this view to get our own TwiML
     """
     def post(self, request):
         response = VoiceResponse()
-        response.dial("")
-        response_start = Start()
-        response_start.stream(url="")
-        response.append(response_start)
+        response.dial("+821063461851")
+        #response_start = Start()
+        #response_start.stream(url="")
+        #response.append(response_start)
         return HttpResponse(response.to_xml(), content_type='text/xml')
 
 @csrf_exempt
