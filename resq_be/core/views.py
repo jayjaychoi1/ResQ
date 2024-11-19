@@ -6,6 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from twilio.twiml.voice_response import VoiceResponse, Start
 from .utils.twilio_token import create_twilio_access_token
+from django.http import JsonResponse
+from .utils.vad_utils import process_vad  
+from .utils.stt_utils import transcribe_audio_vosk 
 # TODO
 # Audio Recording Storage: Save recorded audio files securely on the server and link them to each call entry in the database.
 # Database Improvements: Add a model to store call recordings, locations, timestamps, and call statuses, including fields for audio file paths and Yes/No responses.
@@ -54,3 +57,41 @@ def get_access_token(request):
     token = create_twilio_access_token(identity)
     return JsonResponse({"access_token": token})
 
+#VAD
+def process_audio(request):
+    """Detects voiced segments in an audio file using VAD."""
+    if request.method == 'POST' and request.FILES.get('audio_file'):
+        audio_file = request.FILES['audio_file']
+        filepath = f'/tmp/{audio_file.name}'  # Temporary storage
+        
+        with open(filepath, 'wb') as f:
+            f.write(audio_file.read())
+        
+        try:
+            vad_segments = process_vad(filepath)
+            return JsonResponse({'vad_result': vad_segments})
+        
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+#STT
+def process_audio_vosk(request):
+    """Transcribes audio to text using Vosk."""
+    if request.method == 'POST' and request.FILES.get('audio_file'):
+        audio_file = request.FILES['audio_file']
+        filepath = f'/tmp/{audio_file.name}'  # Temporary storage
+        
+        with open(filepath, 'wb') as f:
+            f.write(audio_file.read())
+        
+        try:
+            transcription = transcribe_audio_vosk(filepath)
+            return JsonResponse({'transcription': transcription})
+        
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    
+    return JsonResponse({'error': 'Invalid request'}, status=400)
