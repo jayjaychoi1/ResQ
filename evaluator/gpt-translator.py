@@ -23,7 +23,7 @@ def remove_punctuation(sentence):
     return re.sub(r'[!.?]', '', sentence)
 # warning: insert key
 client = OpenAI(
-    api_key = "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"
+    api_key = ""
 )
 
 # open original text
