@@ -31,18 +31,35 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
+    """
+    accept websocket connect/disconnect request and make a group-chat room, receive message from user client and broadcast it to group-chat room.
+    """
     async def connect(self):
+        print("chat begins")
+        await self.channel_layer.group_add("chat", self.channel_name)
         await self.accept()
 
     async def disconnect(self, close_code):
+        print("chat ends")
+        await self.channel_layer.group_discard("chat", self.channel_name)
         pass
 
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-        message = text_data_json['message']
-        await self.send(text_data=json.dumps({
-            'message': message
-        }))
+        data = json.loads(text_data)
+        user_id = data['user_id']
+        message = data['message']
+        await self.channel_layer.group_send(
+            "chat",
+            {
+                "type": "chat_message",
+                "message": message,
+                "user": user_id,
+            }
+        )
+
+    async def chat_message(self, event):
+        data = event["message"]
+        await self.send(text_data=json.dumps(data))
 
 class TranslateConsumer(AsyncWebsocketConsumer):
     async def connect(self):
