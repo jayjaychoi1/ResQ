@@ -1,0 +1,6 @@
+framework module Pods_resq_iosTests {
+  umbrella header "Pods-resq_iosTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
