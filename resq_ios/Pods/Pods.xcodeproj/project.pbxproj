@@ -16,6 +16,7 @@
 			dependencies = (
 			);
 			name = TwilioVoice;
+			productName = TwilioVoice;
 		};
 /* End PBXAggregateTarget section */
 
@@ -59,8 +60,8 @@
 		062F47DD305338C8F1B04097DBB45224 /* Pods-resq_ios-resq_iosUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-resq_ios-resq_iosUITests-dummy.m"; sourceTree = "<group>"; };
 		08FCB92C1AB835275484D101707429A3 /* Pods-resq_ios-resq_iosUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-resq_ios-resq_iosUITests-umbrella.h"; sourceTree = "<group>"; };
 		0C96DFEC4F1FFAAD960E52C91E21D729 /* Pods-resq_iosTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-resq_iosTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		151124641012D1C945FAE5DDD5FB10B0 /* Pods-resq_iosTests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-resq_iosTests"; path = Pods_resq_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		196A4BF6EA7D2F765CCD3C6FE79F7C7F /* Pods-resq_ios */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-resq_ios"; path = Pods_resq_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		151124641012D1C945FAE5DDD5FB10B0 /* Pods_resq_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_resq_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		196A4BF6EA7D2F765CCD3C6FE79F7C7F /* Pods_resq_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_resq_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BC3EB657598139053540ECC565B3B7A /* Pods-resq_ios.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-resq_ios.modulemap"; sourceTree = "<group>"; };
 		28214DC9A06585CB24A80A42F7315C35 /* Pods-resq_iosTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-resq_iosTests-dummy.m"; sourceTree = "<group>"; };
 		36905EFE4052248819C3A35A1C38C4BE /* Pods-resq_iosTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-resq_iosTests.modulemap"; sourceTree = "<group>"; };
@@ -68,14 +69,14 @@
 		3C89F55C97C86CC35FE7D4164E138673 /* TwilioVoice.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = TwilioVoice.release.xcconfig; sourceTree = "<group>"; };
 		3CB167895F61E3A405DE26BBCFEE9B4F /* Pods-resq_ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-resq_ios.release.xcconfig"; sourceTree = "<group>"; };
 		55A75CE92651F55A367F96C8BD70C2F0 /* Pods-resq_ios-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-resq_ios-Info.plist"; sourceTree = "<group>"; };
-		55C32F8D831AD8E8294D5B69E69AA5CE /* Pods-resq_ios-resq_iosUITests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-resq_ios-resq_iosUITests"; path = Pods_resq_ios_resq_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		55C32F8D831AD8E8294D5B69E69AA5CE /* Pods_resq_ios_resq_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_resq_ios_resq_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F29EE18AF55D837733619398F73DDF1 /* Pods-resq_ios-resq_iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-resq_ios-resq_iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		640AD8034E769B39DC3A4275AB4A3A27 /* Pods-resq_iosTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-resq_iosTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		691FE8D38B4483B8E80B9CB75FCB948F /* Pods-resq_ios-resq_iosUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-resq_ios-resq_iosUITests-acknowledgements.plist"; sourceTree = "<group>"; };
 		7E832C2D85FF2D3EDFFEE0F8B32E205C /* Pods-resq_iosTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-resq_iosTests-Info.plist"; sourceTree = "<group>"; };
 		9609CE7354534E70229CA0F63E37AA35 /* Pods-resq_iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-resq_iosTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9EFAB19F08B07E751FBBBE5B69B52B1F /* TwilioVoice.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; path = TwilioVoice.xcframework; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9EFAB19F08B07E751FBBBE5B69B52B1F /* TwilioVoice.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = wrapper.xcframework; path = TwilioVoice.xcframework; sourceTree = "<group>"; };
 		9FC783C6E2C82A69D5FC25D2DA9505B2 /* Pods-resq_ios-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-resq_ios-umbrella.h"; sourceTree = "<group>"; };
 		A59C753D7D4934C8EEECDD0BBF80A448 /* Pods-resq_ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-resq_ios.debug.xcconfig"; sourceTree = "<group>"; };
 		AB2B9C8A7F19CFC1BB27FDE84CB516A5 /* Pods-resq_ios-resq_iosUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-resq_ios-resq_iosUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -175,9 +176,9 @@
 		5A5E2337323DF6389032ABE9DF919F26 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				196A4BF6EA7D2F765CCD3C6FE79F7C7F /* Pods-resq_ios */,
-				55C32F8D831AD8E8294D5B69E69AA5CE /* Pods-resq_ios-resq_iosUITests */,
-				151124641012D1C945FAE5DDD5FB10B0 /* Pods-resq_iosTests */,
+				196A4BF6EA7D2F765CCD3C6FE79F7C7F /* Pods_resq_ios.framework */,
+				55C32F8D831AD8E8294D5B69E69AA5CE /* Pods_resq_ios_resq_iosUITests.framework */,
+				151124641012D1C945FAE5DDD5FB10B0 /* Pods_resq_iosTests.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -216,7 +217,6 @@
 				C637C9E01950FCAAFB245F146BBBA659 /* Frameworks */,
 				763FA481AED057D3E15BF8C055024859 /* Support Files */,
 			);
-			name = TwilioVoice;
 			path = TwilioVoice;
 			sourceTree = "<group>";
 		};
@@ -301,7 +301,7 @@
 			);
 			name = "Pods-resq_ios-resq_iosUITests";
 			productName = Pods_resq_ios_resq_iosUITests;
-			productReference = 55C32F8D831AD8E8294D5B69E69AA5CE /* Pods-resq_ios-resq_iosUITests */;
+			productReference = 55C32F8D831AD8E8294D5B69E69AA5CE /* Pods_resq_ios_resq_iosUITests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		2556DAB49043C0E8983AF4C025050076 /* Pods-resq_iosTests */ = {
@@ -320,7 +320,7 @@
 			);
 			name = "Pods-resq_iosTests";
 			productName = Pods_resq_iosTests;
-			productReference = 151124641012D1C945FAE5DDD5FB10B0 /* Pods-resq_iosTests */;
+			productReference = 151124641012D1C945FAE5DDD5FB10B0 /* Pods_resq_iosTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		6F8401DF47D80645BB0C5B59C7375373 /* Pods-resq_ios */ = {
@@ -339,7 +339,7 @@
 			);
 			name = "Pods-resq_ios";
 			productName = Pods_resq_ios;
-			productReference = 196A4BF6EA7D2F765CCD3C6FE79F7C7F /* Pods-resq_ios */;
+			productReference = 196A4BF6EA7D2F765CCD3C6FE79F7C7F /* Pods_resq_ios.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -348,8 +348,9 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1600;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 1610;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -360,8 +361,6 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			minimizedProjectReferenceProxies = 0;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = 5A5E2337323DF6389032ABE9DF919F26 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -471,17 +470,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D27F73714615CB5EB84DFF526AC516E2 /* Pods-resq_iosTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = "Target Support Files/Pods-resq_iosTests/Pods-resq_iosTests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -493,6 +489,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-resq_iosTests/Pods-resq_iosTests.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -511,17 +508,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CB167895F61E3A405DE26BBCFEE9B4F /* Pods-resq_ios.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = "Target Support Files/Pods-resq_ios/Pods-resq_ios-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -533,6 +527,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-resq_ios/Pods-resq_ios.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -555,7 +550,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -570,17 +565,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FE22857EEA60DD90D15C85A3964F3577 /* Pods-resq_ios-resq_iosUITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = "Target Support Files/Pods-resq_ios-resq_iosUITests/Pods-resq_ios-resq_iosUITests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -592,6 +584,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-resq_ios-resq_iosUITests/Pods-resq_ios-resq_iosUITests.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -610,17 +603,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A59C753D7D4934C8EEECDD0BBF80A448 /* Pods-resq_ios.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = "Target Support Files/Pods-resq_ios/Pods-resq_ios-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -632,6 +622,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-resq_ios/Pods-resq_ios.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -649,17 +640,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5F29EE18AF55D837733619398F73DDF1 /* Pods-resq_ios-resq_iosUITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = "Target Support Files/Pods-resq_ios-resq_iosUITests/Pods-resq_ios-resq_iosUITests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -671,6 +659,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-resq_ios-resq_iosUITests/Pods-resq_ios-resq_iosUITests.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -692,7 +681,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -737,6 +726,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -756,7 +746,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -799,6 +788,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -822,7 +812,6 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -834,17 +823,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9609CE7354534E70229CA0F63E37AA35 /* Pods-resq_iosTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_MODULE_VERIFIER = NO;
+				ENABLE_MODULE_VERIFIER = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = "Target Support Files/Pods-resq_iosTests/Pods-resq_iosTests-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -856,6 +842,7 @@
 				);
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-resq_iosTests/Pods-resq_iosTests.modulemap";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
