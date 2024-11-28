@@ -8,7 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/consumers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/utils/twilio_token.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/utils/twilio_token.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/utils/vad_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/utils/vad_utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
     </list>
@@ -111,7 +110,8 @@
       <workItem from="1732238905707" duration="5257000" />
       <workItem from="1732511645840" duration="2775000" />
       <workItem from="1732671462791" duration="4427000" />
-      <workItem from="1732704776438" duration="944000" />
+      <workItem from="1732704776438" duration="1449000" />
+      <workItem from="1732773130643" duration="906000" />
     </task>
     <servers />
   </component>

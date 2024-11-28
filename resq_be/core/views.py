@@ -52,41 +52,41 @@ class TwilioAPIView(APIView):
         response.append(response_start)
         return HttpResponse(response.to_xml(), content_type='text/xml')
 
-#VAD
-def process_audio(request):
-    """Detects voiced segments in an audio file using VAD."""
-    if request.method == 'POST' and request.FILES.get('audio_file'):
-        audio_file = request.FILES['audio_file']
-        filepath = f'/tmp/{audio_file.name}'  # Temporary storage
-
-        with open(filepath, 'wb') as f:
-            f.write(audio_file.read())
-
-        try:
-            vad_segments = process_vad(filepath)
-            return JsonResponse({'vad_result': vad_segments})
-
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
-
-
-#STT
-def process_audio_vosk(request):
-    """Transcribes audio to text using Vosk."""
-    if request.method == 'POST' and request.FILES.get('audio_file'):
-        audio_file = request.FILES['audio_file']
-        filepath = f'/tmp/{audio_file.name}'  # Temporary storage
-
-        with open(filepath, 'wb') as f:
-            f.write(audio_file.read())
-
-        try:
-            transcription = transcribe_audio_vosk(filepath)
-            return JsonResponse({'transcription': transcription})
-
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+# #VAD
+# def process_audio(request):
+#     """Detects voiced segments in an audio file using VAD."""
+#     if request.method == 'POST' and request.FILES.get('audio_file'):
+#         audio_file = request.FILES['audio_file']
+#         filepath = f'/tmp/{audio_file.name}'  # Temporary storage
+#
+#         with open(filepath, 'wb') as f:
+#             f.write(audio_file.read())
+#
+#         try:
+#             vad_segments = process_vad(filepath)
+#             return JsonResponse({'vad_result': vad_segments})
+#
+#         except Exception as e:
+#             return JsonResponse({'error': str(e)}, status=500)
+#
+#     return JsonResponse({'error': 'Invalid request'}, status=400)
+#
+#
+# #STT
+# def process_audio_vosk(request):
+#     """Transcribes audio to text using Vosk."""
+#     if request.method == 'POST' and request.FILES.get('audio_file'):
+#         audio_file = request.FILES['audio_file']
+#         filepath = f'/tmp/{audio_file.name}'  # Temporary storage
+#
+#         with open(filepath, 'wb') as f:
+#             f.write(audio_file.read())
+#
+#         try:
+#             transcription = transcribe_audio_vosk(filepath)
+#             return JsonResponse({'transcription': transcription})
+#
+#         except Exception as e:
+#             return JsonResponse({'error': str(e)}, status=500)
+#
+#     return JsonResponse({'error': 'Invalid request'}, status=400)

@@ -1,5 +1,4 @@
 import base64
-import websockets
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
@@ -55,6 +54,7 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         server_url = "ws://127.0.0.1:9000/ws/as_routing.py_in_Junia's/"
         result = await self.connect_to_other_server(server_url, {"message": after_STT})
         !!! u must decode result with unicode !!!
+        !!! u must fix url as Junia's routing.py !!!
         """
 
         """
