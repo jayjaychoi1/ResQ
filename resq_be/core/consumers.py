@@ -67,22 +67,6 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         except Exception as e:
             print(f"Error processing audio: {e}")
 
-    def convert_to_pcm(self, audio_path):
-        """
-        Converts an audio file (MP3/WAV) to PCM format (16-bit mono, 16kHz).
-
-        Args:
-            audio_path (str): Path to the input audio file.
-
-        Returns:
-            str: Path to the converted PCM WAV file.
-        """
-        audio = AudioSegment.from_file(audio_path)
-        audio = audio.set_frame_rate(16000).set_channels(1).set_sample_width(2)
-        pcm_path = audio_path.replace(".mp3", "_pcm.wav")
-        audio.export(pcm_path, format="wav")
-        return pcm_path
-
     def vad_algorithm(self, pcm_path):
         """
         Performs Voice Activity Detection (VAD) on an audio file.
@@ -109,36 +93,8 @@ class VoiceConsumer(AsyncWebsocketConsumer):
                     return True
         return False
 
-    def transcribe_audio_with_vosk(self, pcm_path):
-        """
-        Transcribes audio to text using the VOSK Speech-to-Text (STT) library.
 
-        Args:
-            pcm_path (str): Path to the PCM WAV file.
 
-        Returns:
-            str: Transcription of the audio.
-        """
-        vosk_model_path = "models/vosk.blabla"  # Write VOSK model path, after installing it 
-        model = Model(vosk_model_path)
-        recognizer = KaldiRecognizer(model, 16000)
-
-        with wave.open(pcm_path, "rb") as wf:
-            results = []
-            while True:
-                data = wf.readframes(4000)
-                if len(data) == 0:
-                    break
-                if recognizer.AcceptWaveform(data):
-                    results.append(json.loads(recognizer.Result()))
-
-            # Finalize transcription
-            final_result = json.loads(recognizer.FinalResult())
-            results.append(final_result)
-
-        # Combine all results into a single transcription string
-        transcription = " ".join([res.get("text", "") for res in results])
-        return transcription
 
     async def call_ai(self, transcription):
         """
