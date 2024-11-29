@@ -24,7 +24,7 @@ def yes_no_response(request):
         {
             "type": "chat_message",
             "message": request.data['response'],
-            "user": 1,
+            "user": 2,
         }
     )
 
