@@ -1,20 +1,26 @@
 import base64
+
+import websockets
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+
+from rest_framework.response import Response
+
+from resq_be.core.utils.chat_utils import send
+from resq_be.core.utils.stt_utils import stt
+from resq_be.core.utils.vad_utils import vad
+
 
 class VoiceConsumer(AsyncWebsocketConsumer):
     """
     consumes raw voice data in JSON form receives from Twilio server
     and call VAD -> STT -> AI -> CHAT
     """
-    """
-    CALL AI CODE 1
     async def ai_translate(self, server_url, message):
         async with websockets.connect(server_url) as websocket:
             await websocket.send(json.dumps(message))
             response = await websocket.recv()
             return json.loads(response)
-    """
 
     async def connect(self):
         print("call begins")
@@ -37,43 +43,20 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         payload_decoded = base64.b64decode(payload_base64)
         with open(stream_sid + "_" + sequence_number + ".mp3", "wb") as audio_file:
             audio_file.write(payload_decoded)
-        """
-        check if audio stacks enough
-        """
 
-        """
-        CALL VAD CODE
-        """
+        audio_file_name = ""
 
-        """
-        CALL STT CODE
-        """
+        pcm_audio_path, vad_result = vad(audio_file_name)
+        if not vad_result:
+            print("VAD FAILED")
+            return Response({"message" : "VAD FAILED"})
 
-        """
-        CALL AI CODE 2
+        untranslated_sentence = stt(pcm_audio_path)
+
         server_url = "ws://127.0.0.1:9000/ws/as_routing.py_in_Junia's/"
-        result = await self.connect_to_other_server(server_url, {"message": after_STT})
-        !!! u must decode result with unicode !!!
-        !!! u must fix url as Junia's routing.py !!!
-        """
+        translated_sentence = self.ai_translate(server_url=server_url, message=untranslated_sentence)
 
-        """
-        CALL CHAT CODE
-        - user_id = id of sender
-        - result = translated result
-
-        channel_layer = get_channel_layer() 
-        async_to_sync(channel_layer.group_send)(
-        "chat",
-            {
-                "type": "chat_message",  
-                "message": result,
-                "user": user_id,
-            }
-        )
-        """
-
-
+        send("user", translated_sentence)
 
 class ChatConsumer(AsyncWebsocketConsumer):
     """
