@@ -3,6 +3,7 @@ import wave
 import json
 from vosk import Model, KaldiRecognizer
 
+
 def transcribe_audio_vosk(filepath, model_path='models/vosk-model-small-en-us-0.22'):
     """Transcribes audio using Vosk."""
     if not os.path.exists(model_path):

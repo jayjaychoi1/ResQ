@@ -50,7 +50,7 @@ def vad_collector(sample_rate, frame_duration_ms, padding_duration_ms, vad, fram
             voiced_frames.append(frame)
         else:
             ring_buffer.append(frame)
-    
+
     return b''.join(voiced_frames)
 
 def process_vad(filepath, aggressiveness=3):
