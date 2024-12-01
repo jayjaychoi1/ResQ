@@ -11,8 +11,10 @@ from twilio.twiml.voice_response import VoiceResponse, Start
 
 from .utils.chat_utils import send
 from .utils.twilio_token import create_twilio_access_token
-# from .utils.stt_utils import transcribe_audio_vosk
-# from .utils.vad_utils import process_vad
+#for vad and stt part
+import os
+from .utils.vad_utils import is_speech_in_audio
+from .utils.stt_utils import transcribe_audio
 
 def home(request):
     return render(request, 'main.html')
@@ -39,45 +41,28 @@ class TwilioAPIView(APIView):
         response.dial(to_number, callerId="+18582076378")
         return HttpResponse(response.to_xml(), content_type='text/xml')
 
-# #VAD
-# def process_audio(request):
-#     """
-#     Detects voiced segments in an audio file using VAD.
-#     """
-#     if request.method == 'POST' and request.FILES.get('audio_file'):
-#         audio_file = request.FILES['audio_file']
-#         filepath = f'/tmp/{audio_file.name}'  # Temporary storage
-#
-#         with open(filepath, 'wb') as f:
-#             f.write(audio_file.read())
-#
-#         try:
-#             vad_segments = process_vad(filepath)
-#             return JsonResponse({'vad_result': vad_segments})
-#
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=500)
-#
-#     return JsonResponse({'error': 'Invalid request'}, status=400)
-#
-#
-# #STT
-# def process_audio_vosk(request):
-#     """
-#     Transcribes audio to text using Vosk.
-#     """
-#     if request.method == 'POST' and request.FILES.get('audio_file'):
-#         audio_file = request.FILES['audio_file']
-#         filepath = f'/tmp/{audio_file.name}'  # Temporary storage
-#
-#         with open(filepath, 'wb') as f:
-#             f.write(audio_file.read())
-#
-#         try:
-#             transcription = transcribe_audio_vosk(filepath)
-#             return JsonResponse({'transcription': transcription})
-#
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=500)
-#
-#     return JsonResponse({'error': 'Invalid request'}, status=400)
+#vad and stt part
+
+@csrf_exempt
+def process_audio(request):
+    """
+    Handles POST requests to process audio files for VAD and STT.
+    """
+    if request.method == "POST" and "audio_file" in request.FILES:
+        audio_file = request.FILES["audio_file"]
+        file_path = f"uploaded_audio/{audio_file.name}"
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)
+        with open(file_path, "wb") as f:
+            for chunk in audio_file.chunks():
+                f.write(chunk)
+
+        try:
+            if is_speech_in_audio(file_path):
+                transcription = transcribe_audio(file_path)
+                return JsonResponse({"transcription": transcription})
+            else:
+                return JsonResponse({"error": "No speech detected in the audio."})
+        except Exception as e:
+            return JsonResponse({"error": str(e)})
+
+    return JsonResponse({"error": "Invalid request"})

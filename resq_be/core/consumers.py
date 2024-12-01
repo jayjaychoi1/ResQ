@@ -5,8 +5,10 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 from rest_framework.response import Response
 from resq_be.core.utils.chat_utils import send
-# from resq_be.core.utils.stt_utils import stt
-# from resq_be.core.utils.vad_utils import vad
+# added for vad and stt part
+from .utils.vad_utils import is_speech_in_audio
+from .utils.stt_utils import transcribe_audio
+import os
 
 class VoiceConsumer(AsyncWebsocketConsumer):
     """
@@ -40,6 +42,27 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             payload_decoded = base64.b64decode(payload_base64)
             print("[", speaker_id, "-", sequence_number, "]: ", payload_decoded)
 
+            # Save audio as raw file
+            file_path = f"uploaded_audio/{data['streamSid']}_{sequence_number}.raw"
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, "wb") as audio_file:
+                audio_file.write(payload_decoded)
+
+            # Perform VAD
+            if is_speech_in_audio(file_path):
+                # Perform STT if speech is detected
+                try:
+                    transcription = transcribe_audio(file_path)
+                    print("Transcription:", transcription)
+                    # Optionally, send transcription to the frontend
+                    await self.send(json.dumps({"transcription": transcription}))
+                except Exception as e:
+                    print("Error in STT:", str(e))
+                    await self.send(json.dumps({"error": str(e)}))
+            else:
+                print("No speech detected in audio.")
+                await self.send(json.dumps({"error": "No speech detected."}))
+
         elif event_type == "connected":
             print("Stream connected")
 
@@ -55,6 +78,7 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
         else:
             print("Unknown event type:", event_type)
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     """

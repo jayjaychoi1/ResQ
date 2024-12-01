@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 /models/vosk-model-en-us-0.22/
 
+.DS_Store
+node_modules/
+staticfiles/
