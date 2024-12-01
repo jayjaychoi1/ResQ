@@ -8,6 +8,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from twilio.twiml.voice_response import VoiceResponse, Start
+
+from .utils.chat_utils import send
 from .utils.twilio_token import create_twilio_access_token
 # from .utils.stt_utils import transcribe_audio_vosk
 # from .utils.vad_utils import process_vad
@@ -18,15 +20,7 @@ def home(request):
 @csrf_exempt
 @api_view(['POST'])
 def yes_no_response(request):
-    channel_layer = get_channel_layer()
-    async_to_sync(channel_layer.group_send)(
-        "chat",
-        {
-            "type": "chat_message",
-            "message": request.data['response'],
-            "user": "user",
-        }
-    )
+    send("user", request.data['response'])
     return Response({ "message": "sent!"}, status.HTTP_200_OK)
 
 class TwilioAPIView(APIView):
@@ -41,35 +35,9 @@ class TwilioAPIView(APIView):
     def post(self, request):
         to_number = request.POST.get("To")
         response = VoiceResponse()
-        response.start().stream(url="wss://6fab-119-192-238-169.ngrok-free.app/ws/voice/")
+        response.start().stream(url="wss://6fab-119-192-238-169.ngrok-free.app/ws/voice/", track="both")
         response.dial(to_number, callerId="+18582076378")
         return HttpResponse(response.to_xml(), content_type='text/xml')
-
-
-# from twilio.rest import Client
-# @api_view(['GET'])
-# def test_call(request):
-#
-#     # Twilio 계정 SID와 인증 토큰
-#     account_sid = 'AC9b60d2ccd19db8a02ce918d4989a7849'
-#     auth_token = '6063ef3fa8cb3e47ec469c10c1bde8d1'
-#
-#     # Twilio 클라이언트 인스턴스 생성
-#     client = Client(account_sid, auth_token)
-#
-#     # 발신자와 수신자 전화번호
-#     from_number = '+18582076378'  # Twilio에서 제공한 전화번호
-#     to_number = '+821076223417'  # 수신자 전화번호
-#
-#     # 전화 걸기 요청
-#     call = client.calls.create(
-#         to=to_number,  # 수신자 번호
-#         from_=from_number,  # 발신자 번호
-#         url='https://fde5-125-242-185-191.ngrok-free.app/twilio/',  # TwiML 응답을 받을 URL
-#     )
-#
-#     print(call.sid)  # 호출 SID를 출력 (추적용)
-#     return Response({"message": "ok"})
 
 # #VAD
 # def process_audio(request):

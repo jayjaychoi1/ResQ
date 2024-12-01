@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3b7e392-a556-4e79-9ef0-7c71801de565" name="Changes" comment="" />
+    <list default="true" id="d3b7e392-a556-4e79-9ef0-7c71801de565" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/consumers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -108,7 +112,7 @@
       <workItem from="1732773130643" duration="2170000" />
       <workItem from="1732855901890" duration="2698000" />
       <workItem from="1732870954381" duration="2803000" />
-      <workItem from="1733033786643" duration="5782000" />
+      <workItem from="1733033786643" duration="6822000" />
     </task>
     <servers />
   </component>

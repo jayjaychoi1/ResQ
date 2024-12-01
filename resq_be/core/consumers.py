@@ -13,13 +13,6 @@ class VoiceConsumer(AsyncWebsocketConsumer):
     consumes raw voice data in JSON form receives from Twilio server
     and call VAD -> STT -> AI -> CHAT
     """
-    voice_data_stack = ""
-    #
-    # async def ai_translate(self, server_url, message):
-    #     async with websockets.connect(server_url) as websocket:
-    #         await websocket.send(json.dumps(message))
-    #         response = await websocket.recv()
-    #         return json.loads(response)
 
     async def connect(self):
         print("websocket connected")
@@ -39,11 +32,13 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         event_type = data.get("event")
 
         if event_type == "media":
+            # sequence of raw voice data
             sequence_number = data['sequenceNumber']
             payload_base64 = data['media']['payload']
+            # speaker 1: inbound(caller), speaker 2: outbound(callee)
+            speaker_id = data['media']['track']
             payload_decoded = base64.b64decode(payload_base64)
-            print(sequence_number, ": ", payload_decoded)
-            #self.voice_data_stack += payload_decoded
+            print("[", speaker_id, "-", sequence_number, "]: ", payload_decoded)
 
         elif event_type == "connected":
             print("Stream connected")
@@ -59,22 +54,7 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             print("stream_sid: ", data["streamSid"])
 
         else:
-            # 알 수 없는 이벤트
             print("Unknown event type:", event_type)
-        # with open(stream_sid + "_" + sequence_number + ".mp3", "wb") as audio_file:
-        #     audio_file.write(payload_decoded)
-
-        # pcm_audio_path, vad_result = vad(audio_file_name)
-        # if not vad_result:
-        #     print("VAD FAILED")
-        #     return Response({"message" : "VAD FAILED"})
-        # self.voice_data_stack = ""
-        # untranslated_sentence = stt(pcm_audio_path)
-        #
-        # server_url = "ws://127.0.0.1:9000/ws/as_routing.py_in_Junia's/"
-        # translated_sentence = self.ai_translate(server_url=server_url, message=untranslated_sentence)
-        #
-        # send("user", translated_sentence)
 
 class ChatConsumer(AsyncWebsocketConsumer):
     """
