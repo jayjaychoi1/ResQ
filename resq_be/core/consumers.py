@@ -1,33 +1,32 @@
 import base64
-
-import websockets
+# import websocket
+# import websockets
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-
 from rest_framework.response import Response
-
 from resq_be.core.utils.chat_utils import send
-from resq_be.core.utils.stt_utils import stt
-from resq_be.core.utils.vad_utils import vad
-
+# from resq_be.core.utils.stt_utils import stt
+# from resq_be.core.utils.vad_utils import vad
 
 class VoiceConsumer(AsyncWebsocketConsumer):
     """
     consumes raw voice data in JSON form receives from Twilio server
     and call VAD -> STT -> AI -> CHAT
     """
-    async def ai_translate(self, server_url, message):
-        async with websockets.connect(server_url) as websocket:
-            await websocket.send(json.dumps(message))
-            response = await websocket.recv()
-            return json.loads(response)
+    voice_data_stack = ""
+    #
+    # async def ai_translate(self, server_url, message):
+    #     async with websockets.connect(server_url) as websocket:
+    #         await websocket.send(json.dumps(message))
+    #         response = await websocket.recv()
+    #         return json.loads(response)
 
     async def connect(self):
-        print("call begins")
+        print("websocket connected")
         await self.accept()
 
     async def disconnect(self, close_code):
-        print("call ends")
+        print("websocket ends")
         pass
 
     async def receive(self, text_data):
@@ -37,26 +36,45 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         stream_sid = Unique Twilio stream id
         """
         data = json.loads(text_data)
-        sequence_number = data['sequenceNumber']
-        stream_sid = data['streamSid']
-        payload_base64 = data['media']['payload']
-        payload_decoded = base64.b64decode(payload_base64)
-        with open(stream_sid + "_" + sequence_number + ".mp3", "wb") as audio_file:
-            audio_file.write(payload_decoded)
+        event_type = data.get("event")
 
-        audio_file_name = ""
+        if event_type == "media":
+            sequence_number = data['sequenceNumber']
+            payload_base64 = data['media']['payload']
+            payload_decoded = base64.b64decode(payload_base64)
+            print(sequence_number, ": ", payload_decoded)
+            #self.voice_data_stack += payload_decoded
 
-        pcm_audio_path, vad_result = vad(audio_file_name)
-        if not vad_result:
-            print("VAD FAILED")
-            return Response({"message" : "VAD FAILED"})
+        elif event_type == "connected":
+            print("Stream connected")
 
-        untranslated_sentence = stt(pcm_audio_path)
+        elif event_type == "start":
+            print("Stream begins")
+            print("call_sid: ", data['start'].get('callSid'))
+            print("stream_sid: ", data["streamSid"])
 
-        server_url = "ws://127.0.0.1:9000/ws/as_routing.py_in_Junia's/"
-        translated_sentence = self.ai_translate(server_url=server_url, message=untranslated_sentence)
+        elif event_type == "stop":
+            print("Stream ends")
+            print("call_sid: ", data['stop'].get('callSid'))
+            print("stream_sid: ", data["streamSid"])
 
-        send("user", translated_sentence)
+        else:
+            # 알 수 없는 이벤트
+            print("Unknown event type:", event_type)
+        # with open(stream_sid + "_" + sequence_number + ".mp3", "wb") as audio_file:
+        #     audio_file.write(payload_decoded)
+
+        # pcm_audio_path, vad_result = vad(audio_file_name)
+        # if not vad_result:
+        #     print("VAD FAILED")
+        #     return Response({"message" : "VAD FAILED"})
+        # self.voice_data_stack = ""
+        # untranslated_sentence = stt(pcm_audio_path)
+        #
+        # server_url = "ws://127.0.0.1:9000/ws/as_routing.py_in_Junia's/"
+        # translated_sentence = self.ai_translate(server_url=server_url, message=untranslated_sentence)
+        #
+        # send("user", translated_sentence)
 
 class ChatConsumer(AsyncWebsocketConsumer):
     """

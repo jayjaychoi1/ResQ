@@ -3,6 +3,7 @@ from channels.layers import get_channel_layer
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
+from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -26,19 +27,22 @@ def yes_no_response(request):
             "user": "user",
         }
     )
+    return Response({ "message": "sent!"}, status.HTTP_200_OK)
 
 class TwilioAPIView(APIView):
     def get(self, request):
         """
         Create access token and return it (ref. core/utils/create_access_token)
         """
-        identity = 'JongYun Won'
+        identity = 'jywon1128@gmail.com'
         token = create_twilio_access_token(identity)
         return JsonResponse({"access_token": token})
 
     def post(self, request):
+        to_number = request.POST.get("To")
         response = VoiceResponse()
-        response.start().stream(url="wss://fde5-125-242-185-191.ngrok-free.app/ws/voice/")
+        response.start().stream(url="wss://6fab-119-192-238-169.ngrok-free.app/ws/voice/")
+        response.dial(to_number, callerId="+18582076378")
         return HttpResponse(response.to_xml(), content_type='text/xml')
 
 
