@@ -1,6 +1,7 @@
 import Foundation
 import AVFoundation
 
+/*
 class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     private var audioRecorder: AVAudioRecorder?
     private var recordingSession: AVAudioSession?
@@ -111,3 +112,5 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
         }
     }
 }
+
+*/

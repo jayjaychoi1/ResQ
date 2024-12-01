@@ -4,8 +4,6 @@ import UIKit
 import TwilioVoice
 
 struct ContentView: View {
-    @StateObject private var callViewModel = CallViewModel()
-    
     @State private var isRecording = false
     @State private var callID: Int?
     @State private var buttonText = "Call 119"
@@ -13,19 +11,29 @@ struct ContentView: View {
     @State private var isCalling = false
     @State private var isCallEnded = false
     @State private var timer: Timer?
-
+    
+    // 전화 걸기 위해서
+    private let callManager = CallManager()
+    
+    //do i need this?
+    private let networkManger = NetworkManager()
+    
+    
+    @State private var accessToken: String?
+    @State private var callStatus = "Ready"
+    
     // Initialize the audio recorder
-    private let audioRecorder = AudioRecorder()
-
+    //private let audioRecorder = AudioRecorder()
+    
     var body: some View {
         VStack(spacing: 100) {
-            // App title
+            // Button name
             Text("ResQ")
                 .font(.system(size: 64, weight: .bold, design: .rounded))
                 .foregroundColor(.red) // Red for urgency
                 .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 5)
                 .padding()
-
+            
             // Call button
             Button(action: {
                 toggleEmergencyCall()
@@ -46,11 +54,12 @@ struct ContentView: View {
                             )
                     )
             }
-
-            // Yes/No buttons
+            
+            // Yes & No buttons
             HStack(spacing: 30) {
                 Button(action: {
                     sendResponse("yes")
+                    
                 }) {
                     Text("Yes")
                         .font(.title)
@@ -59,7 +68,7 @@ struct ContentView: View {
                         .foregroundColor(.white)
                         .cornerRadius(15)
                 }
-
+                
                 Button(action: {
                     sendResponse("no")
                 }) {
@@ -78,53 +87,72 @@ struct ContentView: View {
             setupAudioSession()
         }
     }
-
-    // Toggle emergency call and mic recording
+    
+    // Toggle Call
     func toggleEmergencyCall() {
         if isCalling {
-            stopEmergencyCall()
+            stopEmergencyCall() // STOP
         } else {
-            startEmergencyCall()
+            startEmergencyCall() // START
         }
     }
-
-    // Start emergency call and mic monitoring
+    
     func startEmergencyCall() {
         buttonText = "Calling 119"
         isCalling = true
         isCallEnded = false
+        
+        // For pretties
         startListening()
-        audioRecorder.startRecording() // Start recording audio
-
-        // Twilio call logic here
         
-        fetchAccessToken() // Currently has error so that when app laucnhes the token is being fetched
+        // For recording
+        //audioRecorder.startRecording()
         
-        NetworkManager.shared.startEmergencyCall { result in
-            switch result {
-            case .success(let response):
-                print("Emergency call started: \(response)")
-            case .failure(let error):
-                print("Failed to start emergency call: \(error)")
+        // Fetch and call
+        initiateEmergencyCall()
+    }
+    
+    //PART 1
+    func initiateEmergencyCall() {
+        TokenService.fetchAccessToken { accessToken in
+            guard let accessToken = accessToken else {
+                callManager.callStatus = "Failed to fetch token"
+                return
+            }
+            
+            DispatchQueue.main.async {
+                callManager.makeCall(to: "+821063461851", accessToken: accessToken)
+                
+                NetworkManager.shared.startEmergencyCall { result in
+                    switch result {
+                    case .success(let response):
+                        print("Emergency call started: \(response)")
+                    case .failure(let error):
+                        print("Failed to start emergency call: \(error)")
+                    }//end result
+                }
             }
         }
-    }
+    }//end init call
+    
 
-    // Stop emergency call and mic monitoring
     func stopEmergencyCall() {
         buttonText = "Call Ended"
         isCalling = false
         isCallEnded = true
+
+        // Stop gradient and microphone recording
         stopListening()
-        isCalling = false
-        callViewModel.hangUpCall()
-        audioRecorder.stopRecording() // Stop recording audio
+        //audioRecorder.stopRecording()
+
+        // End Twilio call
+        callManager.hangUp()
     }
 
     func startListening() {
         timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { _ in
             if self.isCalling {
-                // Update gradient intensity
+                // Gradient Intensity
                 self.gradientIntensity = Double.random(in: 0.3...1.0)
             }
         }
@@ -162,35 +190,5 @@ struct ContentView: View {
             print("Failed to set up audio session: \(error)")
         }
     }
-    
-    func fetchAccessToken() {
-        let url = URL(string: "https://5ffd-163-239-255-162.ngrok-free.app/api/get_access_token/")!
 
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Failed to fetch token: \(error.localizedDescription)")
-                DispatchQueue.main.async {
-                    callViewModel.callStatus = "Failed to fetch token"
-                }
-                return
-            }
-
-            guard let data = data,
-                  let token = String(data: data, encoding: .utf8) else {
-                DispatchQueue.main.async {
-                    callViewModel.callStatus = "Invalid token response"
-                }
-                return
-            }
-
-            DispatchQueue.main.async {
-                callViewModel.accessToken = token
-                callViewModel.callStatus = "Ready to call"
-                print("Access token fetched: \(token)")
-            }
-        }
-        task.resume()
-    }// End fetchAcessToKen
-
-
-}
+}//end of content view
