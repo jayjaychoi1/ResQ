@@ -37,12 +37,14 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         print("websocket connected")
+        await self.channel_layer.group_add("chat", self.channel_name)
         self.external_ws = await websockets.connect(self.external_ws_url)
         print("external websocket connected")
         await self.accept()
 
     async def disconnect(self, close_code):
         await self.external_ws.close()
+        await self.channel_layer.group_discard("chat", self.channel_name)
         print("websocket ends")
 
     async def receive(self, text_data):
@@ -168,7 +170,7 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
     async def call_whisper(self, audio_file_path):
         client = OpenAI(
-            api_key="")
+            api_key="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")
         audio_file = open(audio_file_path, "rb")
         transcription = client.audio.transcriptions.create(
             model="whisper-1",
@@ -225,7 +227,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
 
     async def chat_message(self, event):
-        await self.send(text_data=json.dumps(event))
+        message = event["message"]
+        user_id = event["user_id"]
+        await self.send(text_data=json.dumps({
+            "message": message,
+            "user_id": user_id
+        }))
 
 
 # class TestConsumer(AsyncWebsocketConsumer):
