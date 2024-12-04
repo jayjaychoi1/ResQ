@@ -9,6 +9,8 @@ from .utils.twilio_token import create_twilio_access_token
 from django.http import JsonResponse
 from .utils.vad_utils import process_vad  
 from .utils.stt_utils import transcribe_audio_vosk 
+
+
 # TODO
 # Audio Recording Storage: Save recorded audio files securely on the server and link them to each call entry in the database.
 # Database Improvements: Add a model to store call recordings, locations, timestamps, and call statuses, including fields for audio file paths and Yes/No responses.
@@ -95,3 +97,23 @@ def process_audio_vosk(request):
             return JsonResponse({'error': str(e)}, status=500)
     
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
+
+
+##operator part
+
+
+@csrf_exempt
+def send_message(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            message = data.get('message', '')
+            print(f"Received message: {message}")
+            return JsonResponse({'status': 'success', 'received_message': message})
+        except json.JSONDecodeError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid JSON'})
+    elif request.method == 'GET':
+        return JsonResponse({'status': 'success', 'message': 'GET request received'})
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request method'})

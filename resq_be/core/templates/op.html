@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResQ Operator Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .log-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>ResQ Operator Interface</h1>
+    <div>
+        <input type="text" id="textInput" placeholder="Type a message" />
+        <button id="sendButton" class="button">Send</button>
+    </div>
+    <div>
+        <h3>Logs</h3>
+        <div id="logContainer" class="log-container"></div>
+    </div>
+    <script>
+        const sendButton = document.getElementById('sendButton');
+        const textInput = document.getElementById('textInput');
+        const logContainer = document.getElementById('logContainer');
+
+        // Log utility
+        function logMessage(message) {
+            const logEntry = document.createElement('div');
+            logEntry.textContent = message;
+            logContainer.appendChild(logEntry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        // Sending text data
+        sendButton.addEventListener('click', () => {
+            const message = textInput.value;
+            if (message.trim()) {
+                logMessage('Sent: ' + message);
+                fetch('http://127.0.0.1:8000/api/send-message/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                })
+                .then(response => response.json())
+                .then(data => logMessage('Server Response: ' + JSON.stringify(data)))
+                .catch(err => logMessage('Error: ' + err.message));
+            } else {
+                logMessage('Message cannot be empty.');
+            }
+        });
+    </script>
+</body>
+</html>
