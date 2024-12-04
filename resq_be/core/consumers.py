@@ -32,7 +32,8 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         self.outbound_idx = 0
         self.external_ws = None
         self.external_ws_url = "wss://c1ba-211-179-53-26.ngrok-free.app/ws/some_path/"
-        self.max_size = 150
+        self.max_size = 250
+        self.tmp = 0
 
     async def connect(self):
         print("websocket connected")
@@ -72,28 +73,34 @@ class VoiceConsumer(AsyncWebsocketConsumer):
                 await self.inbound_audio_queue.put(payload_decoded)
 
                 if self.inbound_audio_queue.qsize() > self.max_size:
-                    print("go")
-                    audio_data = b""
-                    while not self.inbound_audio_queue.empty():
-                        audio_data += await self.inbound_audio_queue.get()
+                    if self.tmp == 1:
+                        self.tmp = 0
+                        audio_data = b""
+                        while not self.inbound_audio_queue.empty():
+                            audio_data += await self.inbound_audio_queue.get()
+                        print("no_inbound_audio")
 
-                    if audio_data:
-                        pcm_data = audioop.ulaw2lin(audio_data, 2)
+                        if audio_data:
+                            pcm_data = audioop.ulaw2lin(audio_data, 2)
 
-                        with wave.open("inbound.wav", "wb") as wav_file:
-                            wav_file.setnchannels(1)  # Mono
-                            wav_file.setsampwidth(2)  # 16-bit
-                            wav_file.setframerate(8000)  # 8000 Hz
-                            wav_file.writeframes(pcm_data)
+                            with wave.open("inbound.wav", "wb") as wav_file:
+                                wav_file.setnchannels(1)  # Mono
+                                wav_file.setsampwidth(2)  # 16-bit
+                                wav_file.setframerate(8000)  # 8000 Hz
+                                wav_file.writeframes(pcm_data)
 
-                        translated_sentences = await self.call_translate(await self.call_whisper("inbound.wav"))
-                        translated_dict = {
-                            "user_id": "inbound",
-                            "message": translated_sentences
-                        }
-                        translated_json = json.dumps(translated_dict)
-                        await self.chat_message(translated_json)
-
+                            translated_sentences = await self.call_translate(await self.call_whisper("inbound.wav"))
+                            translated_dict = {
+                                "user_id": "inbound",
+                                "message": translated_sentences
+                            }
+                            translated_json = json.dumps(translated_dict)
+                            await self.chat_message(translated_json)
+                    else:
+                        self.tmp = 1
+                        while not self.inbound_audio_queue.empty():
+                            await self.inbound_audio_queue.get()
+                        print("go_inbound_audio")
 
 
         elif event_type == "connected":
@@ -161,12 +168,14 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
     async def call_whisper(self, audio_file_path):
         client = OpenAI(
-            api_key="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")
+            api_key="")
         audio_file = open(audio_file_path, "rb")
         transcription = client.audio.transcriptions.create(
             model="whisper-1",
-            file=audio_file
+            file=audio_file,
+            language = "en"
         )
+
         return transcription.text
 
     async def chat_message(self, text_data):

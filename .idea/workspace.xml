@@ -6,45 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d3b7e392-a556-4e79-9ef0-7c71801de565" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Recording.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/adjust.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/adjusted_translated_korean_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/compareText.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/english_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/evaluation_of_translation.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/gpt-translator.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/gpt_normalized_translated_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/korean_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/normalized_reference_sentences.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/evaluator/showResult.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/raw_voice.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/config/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/Recording.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/combined_raw_data.raw" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/consumers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/final.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice0.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice1.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice10.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice11.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice12.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice13.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice14.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice2.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice3.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice4.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice5.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice6.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice7.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice8.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/raw_voice9.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/routing.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/routing.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/test1.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/test2.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/utils/output.raw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/utils/testv.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -219,7 +181,7 @@
       <workItem from="1733191580703" duration="121000" />
       <workItem from="1733191867214" duration="1245000" />
       <workItem from="1733204870779" duration="2593000" />
-      <workItem from="1733208518881" duration="54293000" />
+      <workItem from="1733208518881" duration="55973000" />
     </task>
     <servers />
   </component>
