@@ -2,7 +2,7 @@
 //  TokenService.swift
 //  resq_ios
 //
-//  Created by JJ Choi on 11/29/24.
+//  Created by DJ jayjaychoi on 11/29/24.
 //
 
 import Foundation
@@ -10,13 +10,13 @@ import Foundation
 class TokenService {
     static func fetchAccessToken(completion: @escaping (String?) -> Void) {
         // Ensure the URL is valid
-        guard let url = URL(string: "https://6fab-119-192-238-169.ngrok-free.app/twilio/") else {
+        guard let url = URL(string:"https://3e54-163-239-255-162.ngrok-free.app/twilio/") else {
             print("Error: Invalid URL")
             completion(nil)
             return
         }
 
-        // Create the GET request
+        //GET request
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             // Handle networking errors
             if let error = error {
@@ -25,7 +25,7 @@ class TokenService {
                 return
             }
 
-            // Validate the HTTP response
+            //Validate HTTP response
             if let httpResponse = response as? HTTPURLResponse {
                 print("HTTP Status Code: \(httpResponse.statusCode)")
                 if httpResponse.statusCode != 200 {
@@ -35,14 +35,15 @@ class TokenService {
                 }
             }
 
-            // Ensure we received data
+            //Data yes?
             guard let data = data, !data.isEmpty else {
                 print("No data received or data is empty")
                 completion(nil)
                 return
             }
 
-            // Decode JSON data
+            //DECODE JSON
+            //MUST NEED FOR TWILIO
             do {
                 if let jsonObject = try? JSONSerialization.jsonObject(with: data, options: []),
                    let jsonDict = jsonObject as? [String: Any],

@@ -20,6 +20,9 @@
 		E71C3E022CF575260098376D /* AudioRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71C3E012CF575190098376D /* AudioRecord.swift */; };
 		E728EE9E2CF9A26D00D849B5 /* TokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E728EE9D2CF9A26700D849B5 /* TokenService.swift */; };
 		E728EEA02CF9A28600D849B5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E728EE9F2CF9A28600D849B5 /* CallManager.swift */; };
+		E752BD602CFE079A00E195CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E752BD5F2CFE079A00E195CE /* ViewController.swift */; };
+		E7C72E332D00273C00B6AE26 /* fetchMessagesFromServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E752BD632CFE173C00E195CE /* fetchMessagesFromServer.swift */; };
+		E7C72E342D00274200B6AE26 /* sendMessageToServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E752BD612CFE170700E195CE /* sendMessageToServer.swift */; };
 		EFA66DB3A976CF36EA2E7775 /* Pods_resq_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFBFBC638A09D519AF4C870 /* Pods_resq_ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +65,9 @@
 		E71C3E012CF575190098376D /* AudioRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecord.swift; sourceTree = "<group>"; };
 		E728EE9D2CF9A26700D849B5 /* TokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenService.swift; sourceTree = "<group>"; };
 		E728EE9F2CF9A28600D849B5 /* CallManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		E752BD5F2CFE079A00E195CE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E752BD612CFE170700E195CE /* sendMessageToServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sendMessageToServer.swift; sourceTree = "<group>"; };
+		E752BD632CFE173C00E195CE /* fetchMessagesFromServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = fetchMessagesFromServer.swift; sourceTree = "<group>"; };
 		E7A597102CD38929005E1400 /* resq_ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = resq_ios.entitlements; sourceTree = "<group>"; };
 		FA017B56F1588F8F6826E98C /* Pods-resq_iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-resq_iosTests.release.xcconfig"; path = "Target Support Files/Pods-resq_iosTests/Pods-resq_iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		FFFBFBC638A09D519AF4C870 /* Pods_resq_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_resq_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +126,9 @@
 		5C9E58312CB6668C00243EB0 /* resq_ios */ = {
 			isa = PBXGroup;
 			children = (
+				E752BD632CFE173C00E195CE /* fetchMessagesFromServer.swift */,
+				E752BD612CFE170700E195CE /* sendMessageToServer.swift */,
+				E752BD5F2CFE079A00E195CE /* ViewController.swift */,
 				E728EE9F2CF9A28600D849B5 /* CallManager.swift */,
 				E728EE9D2CF9A26700D849B5 /* TokenService.swift */,
 				E71C3E012CF575190098376D /* AudioRecord.swift */,
@@ -419,10 +428,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E7C72E342D00274200B6AE26 /* sendMessageToServer.swift in Sources */,
+				E7C72E332D00273C00B6AE26 /* fetchMessagesFromServer.swift in Sources */,
 				5C85996C2CB686A70052A2DC /* NetworkManager.swift in Sources */,
 				E71C3E022CF575260098376D /* AudioRecord.swift in Sources */,
 				5C9E58352CB6668C00243EB0 /* ContentView.swift in Sources */,
 				E728EEA02CF9A28600D849B5 /* CallManager.swift in Sources */,
+				E752BD602CFE079A00E195CE /* ViewController.swift in Sources */,
 				5C9E58332CB6668C00243EB0 /* resq_iosApp.swift in Sources */,
 				E728EE9E2CF9A26D00D849B5 /* TokenService.swift in Sources */,
 			);
@@ -576,6 +588,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -605,9 +618,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Sogang-Koders.resq-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "Sogang-Koders.resq-ios2";
 				PRODUCT_NAME = ResQ;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -639,9 +653,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Sogang-Koders.resq-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = "Sogang-Koders.resq-ios2";
 				PRODUCT_NAME = ResQ;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

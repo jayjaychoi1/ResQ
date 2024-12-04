@@ -1,25 +1,23 @@
 import Foundation
 import AVFoundation
 
-/*
 class AudioRecorder: NSObject, AVAudioRecorderDelegate {
     private var audioRecorder: AVAudioRecorder?
     private var recordingSession: AVAudioSession?
     private var audioURL: URL?
 
     override init() {
-        super.init()
-        recordingSession = AVAudioSession.sharedInstance()
-    }
+            super.init()
+            recordingSession = AVAudioSession.sharedInstance()
+    }// More inits
 
-    func requestPermission() async -> Bool {
-        do {
-            return try await AVAudioApplication.requestRecordPermission()
-        } catch {
-            print("❌ Permission request error: \(error)")
-            return false
-        }
-    }
+    func requestPermission(completion: @escaping (Bool) -> Void) {
+        AVAudioApplication.requestRecordPermission(completionHandler: { granted in
+            DispatchQueue.main.async {
+                completion(granted)
+            }
+        })
+    }// get ya per mis222
 
     func startRecording() {
         guard let recordingSession = recordingSession else {
@@ -61,56 +59,30 @@ class AudioRecorder: NSObject, AVAudioRecorderDelegate {
 
             audioRecorder = try AVAudioRecorder(url: audioURL, settings: settings)
             audioRecorder?.delegate = self
+            audioRecorder?.prepareToRecord()
+            audioRecorder?.record()
             
-            // Prepare the recorder
-            if audioRecorder?.prepareToRecord() == true {
-                if audioRecorder?.record() == true {
-                    print("✅ Recording started, saving to \(audioURL)")
-                } else {
-                    print("❌ Failed to start recording")
-                }
-            } else {
-                print("❌ Failed to prepare recording")
-            }
+            print("✅ Recording started, saving to \(audioURL)")
         } catch {
             print("❌ Recording setup error: \(error)")
-            // Print more details about the error
-            print("Error details: \(error.localizedDescription)")
         }
     }
 
-    func stopRecording() {
+    func stopRecording() -> URL? {
         audioRecorder?.stop()
         
-        if let url = audioURL {
-            print("✅ Recording stopped. File saved at: \(url)")
-        }
+        guard let url = audioURL else { return nil }
         
         // Optional: Print file size to verify recording
-        if let url = audioURL, let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) {
+        if let attributes = try? FileManager.default.attributesOfItem(atPath: url.path) {
             let fileSize = attributes[.size] as? Int64 ?? 0
             print("📦 Recording file size: \(fileSize) bytes")
         }
+        
+        return url
     }
 
     private func getDocumentsDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
-
-    // AVAudioRecorderDelegate methods for additional error tracking
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
-        if flag {
-            print("✅ Recording finished successfully")
-        } else {
-            print("❌ Recording did not finish successfully")
-        }
-    }
-
-    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
-        if let error = error {
-            print("❌ Encoding error: \(error.localizedDescription)")
-        }
-    }
 }
-
-*/

@@ -8,39 +8,68 @@
 import TwilioVoice
 import Foundation
 
-class CallManager: NSObject {
+class CallManager: NSObject, ObservableObject {
+    @Published var callStatus: String = "Ready"  // Using @Published to automatically notify ContentView
+    
     private var call: Call?
-    var callStatus: String = "Ready"
 
-    // Calls made by this hamsu
+    // To Call
     func makeCall(to number: String, accessToken: String) {
         let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
             builder.params = ["To": number]
         }
 
+        //TwilioVoiceSDK.audioDevice = DefaultAudioDevice()
+        //Initiating the call via Twilio Voice SDK
         call = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
-        callStatus = "Connecting..."
+        DispatchQueue.main.async {
+            self.callStatus = "Connecting..."
+        }
     }
 
+    // To Hang Up
     func hangUp() {
         call?.disconnect()
         call = nil
-        callStatus = "Call ended"
+        DispatchQueue.main.async {
+            self.callStatus = "Call ended"
+        }
     }
 }
 
 extension CallManager: CallDelegate {
+    //Success call
     func callDidConnect(call: Call) {
         print("Call connected")
+        DispatchQueue.main.async {
+            self.callStatus = "Call in Progress"
+        }
     }
 
+    //Call disconnects (either by caller or callee)
     func callDidDisconnect(call: Call, error: Error?) {
         print("Call disconnected: \(error?.localizedDescription ?? "No error")")
+        
+        // Handle call disconnect by callee or error
+        DispatchQueue.main.async {
+            if let error = error {
+                // If there's an error, log it
+                self.callStatus = "Call ended with error: \(error.localizedDescription)"
+            } else {
+                // Call ended successfully
+                self.callStatus = "Call ended"
+            }
+        }
+
         self.call = nil
     }
 
+    // Called when the call fails to connect
     func callDidFailToConnect(call: Call, error: Error) {
         print("Failed to connect: \(error.localizedDescription)")
+        DispatchQueue.main.async {
+            self.callStatus = "Failed to connect"
+        }
         self.call = nil
     }
 }
