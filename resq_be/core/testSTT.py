@@ -18,7 +18,7 @@ def transcribe_file(file_path) -> speech.RecognizeResponse:
     Returns:
         cloud_speech.RecognizeResponse: The response containing the transcription results
     """
-    key_path = "C:\\Users\\user\\PycharmProjects\\ResQ\\resq_be\\core\\utils\\resq-443606-827aa1a8ebca.json"
+    key_path = "C:\\Users\\user\\PycharmProjects\\ResQ\\resq_be\\core\\utils\\resq-443606-499d2ec4cf97.json"
     credentials = service_account.Credentials.from_service_account_file(key_path)
     client = speech.SpeechClient(credentials=credentials)
 
