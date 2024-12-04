@@ -6,7 +6,7 @@ import TwilioVoice
 
 struct ContentView: View {
     @State private var isRecording = false
-    @State private var callID: Int?
+    @State private var callID: Int? = 123 // Example Call ID (replace with actual logic)
     
     @State private var gradientIntensity: Double = 0.35
     @State private var isCalling = false
@@ -19,6 +19,11 @@ struct ContentView: View {
     @State private var buttonText = "Call 119" // Button text
     @State private var callThisNumber = "+821063461851" // Default endpoint
     @State private var customNumber: String = "" // Custom number input
+    
+    @State private var mostRecent = "119"
+    
+    @State private var enteredMessage: String = "" // For user input in the chat field
+    @State private var chatMessages: [String] = [] // Stores messages for chat
     
     private let callManager = CallManager()
     private let networkManager = NetworkManager()
@@ -107,22 +112,7 @@ struct ContentView: View {
                             }
                             toggleEmergencyCall()  // Trigger the call when tapped
                         }
-                    )
-
-                /*
-                .highPriorityGesture(
-                    TapGesture()
-                        .onEnded { _ in
-                            if isLongPressing {  // Ensure tap only works if long press is not active
-                                isTapped = true
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    isTapped = false
-                                }
-                                toggleEmergencyCall()  // Trigger the call when tapped
-                            }
-                        }
-                )//end if hPG
-                 */
+                )
             }
             
             Spacer(minLength: 5)
@@ -130,23 +120,60 @@ struct ContentView: View {
             // Chatroom Placeholder (Always show when call is initiated)
             if showMessagingArea {
                 VStack {
+                    //display the "Help is coming!" message without extra padding
+                    //add or nah
+                    Text("Help is coming!")
+                        .italic()
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .offset(x: 5, y: 5)
+                    
+                    // Chat messages section
                     ScrollView {
-                        Text("Help is coming!")
-                            .italic()
-                            .foregroundColor(.gray)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(EdgeInsets(top: 20, leading: 10, bottom: 20, trailing: 10))
+                        ForEach(chatMessages, id: \.self) { message in
+                            HStack {
+                                // If the message starts with "You:", align it to the right
+                                if message.starts(with: "You:") {
+                                    Spacer() // Push user's message to the right
+                                    Text(message.replacingOccurrences(of: "You: ", with: "")) // Remove "You:" from message
+                                        .padding(3)
+                                        .background(Color.green.opacity(0.9))
+                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.green.opacity(0.6), lineWidth: 1)
+                                        )
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .trailing)
+                                } else {
+                                    // If it's not from the user (assumed to be the operator), align it to the left
+                                    Text(message)
+                                        .padding(3)
+                                        .background(Color.blue.opacity(0.9))
+                                        .cornerRadius(12)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.blue.opacity(0.6), lineWidth: 1)
+                                        )
+                                        .foregroundColor(.white)
+                                        .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .leading)
+                                    Spacer() // Push operator's message to the left
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 2) // Add spacing between messages
+                        }
                     }
-                    .frame(height: 400)
-                    .border(Color.gray, width: 1)
+                    .frame(height: 400) // Adjust height as needed
+                    .border(Color.gray, width: 1) // Border for the entire chatroom (including "Help is coming!")
                     
                     HStack {
-                        TextField("Enter message...", text: .constant(""))
+                        TextField("Enter message...", text: $enteredMessage)  // Binding the input field
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .padding(.horizontal)
                         
                         Button(action: {
-                            print("Message sent!")
+                            sendMessage()  // Send the message when button is clicked
                         }) {
                             Image(systemName: "arrow.up.circle.fill")
                                 .resizable()
@@ -157,6 +184,7 @@ struct ContentView: View {
                     }
                     .padding(.bottom)
                 }
+                .border(Color.gray, width: 1)
             }
             
             // Yes & No Buttons
@@ -184,10 +212,16 @@ struct ContentView: View {
                 }
             }
             .padding(.bottom, 30)
+            
+            Spacer()
         }
         .padding()
         .onAppear {
-            // Setup or additional configurations
+            // Timer to fetch messages periodically
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { _ in
+                fetchMessages()
+            }
+            //showMessagingArea = true
         }
     }
     
@@ -219,6 +253,7 @@ struct ContentView: View {
     }
     
     func initiateEmergencyCall() {
+        buttonText = "Calling " + mostRecent
         TokenService.fetchAccessToken { accessToken in
             guard let accessToken = accessToken else {
                 callManager.callStatus = "Failed to fetch token"
@@ -241,24 +276,22 @@ struct ContentView: View {
             isButtonRectangular = false // Reset the button to circular
         }
         callManager.hangUp()
+        chatMessages.removeAll() //removes all msgs too
     }
     
-    
-    // Handle Option Selection (Dropdown List)
     func handleOptionSelection(option: String) {
         if option == "Custom" {
-            // Show input dialog for custom number
-            customNumber = "+821012345678" // Example; prompt for user input
-            callThisNumber = customNumber
-            buttonText = customNumber // Update the button text
+            setCustomNumber()
         } else {
-            // Update the callThisNumber and button text based on selected option
             switch option {
             case "119":
+                mostRecent = "119"
                 callThisNumber = "+821063461851"
             case "112":
+                mostRecent = "112"
                 callThisNumber = "+821076223417"
             case "911":
+                mostRecent = "911"
                 callThisNumber = "+821073877475"
             default:
                 break
@@ -269,13 +302,53 @@ struct ContentView: View {
         isCalling = false
         isCallEnded = false
         
-        //Hide dropdown list
+        // Hide dropdown list
         withAnimation {
             showCallOptions = false
         }
     }
     
-    // Send Yes or No Response
+    func setCustomNumber() {
+        let alert = UIAlertController(title: "Enter Custom Number", message: nil, preferredStyle: .alert)
+        alert.addTextField { textField in
+            textField.placeholder = "Enter phone number"
+            textField.keyboardType = .numberPad // Set the numpad keyboard
+        }
+        
+        let submitAction = UIAlertAction(title: "OK", style: .default) { _ in
+            if let inputNumber = alert.textFields?.first?.text, !inputNumber.isEmpty {
+                // Update values with the custom number
+                customNumber = inputNumber
+                buttonText = "Calling \(customNumber)"
+                mostRecent = customNumber
+                callThisNumber = customNumber
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(submitAction)
+        alert.addAction(cancelAction)
+        
+        // Present the alert (You may need to use the top-most view controller for this)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootVC = windowScene.windows.first?.rootViewController {
+            rootVC.present(alert, animated: true, completion: nil)
+        }
+    }
+
+    
+    func sendMessage() {
+        guard !enteredMessage.isEmpty else { return }
+        
+        // Append the message to the chat
+        chatMessages.append("You: \(enteredMessage)")
+        enteredMessage = "" // Clear the input field
+        
+        // Send the message to the backend or display it
+        print("Sent message: \(chatMessages.last ?? "")")
+    }
+    
     func sendResponse(_ response: String) {
         guard let callID = callID else {
             print("Call ID not available")
@@ -284,11 +357,26 @@ struct ContentView: View {
         
         NetworkManager.shared.sendYesNoResponse(callID: callID, response: response) { result in
             switch result {
-            case .success(let response):
+            case .success:
                 print("Response sent: \(response)")
             case .failure(let error):
                 print("Failed to send response: \(error)")
             }
         }
-    }//end of sendResponse
+    }
+    
+    func fetchMessages() {
+        guard let callID = callID else { return }
+        
+        MessageFetcher.shared.fetchMessages(for: callID) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let messages):
+                    self.chatMessages = messages // Update chat messages
+                case .failure(let error):
+                    print("Failed to fetch messages: \(error)")
+                }
+            }
+        }
+    }
 }

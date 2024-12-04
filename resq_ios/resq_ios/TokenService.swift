@@ -10,11 +10,11 @@ import Foundation
 class TokenService {
     static func fetchAccessToken(completion: @escaping (String?) -> Void) {
         // Ensure the URL is valid
-        guard let url = URL(string:"https://3e54-163-239-255-162.ngrok-free.app/twilio/") else {
-            print("Error: Invalid URL")
-            completion(nil)
-            return
-        }
+        guard let url = URL(string:"https://2bda-163-239-255-162.ngrok-free.app/twilio/") else {
+                print("Error: Invalid URL")
+                completion(nil)
+                return
+            }//end else
 
         //GET request
         let task = URLSession.shared.dataTask(with: url) { data, response, error in

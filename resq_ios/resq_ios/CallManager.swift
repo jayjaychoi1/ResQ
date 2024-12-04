@@ -17,10 +17,11 @@ class CallManager: NSObject, ObservableObject {
     func makeCall(to number: String, accessToken: String) {
         let connectOptions = ConnectOptions(accessToken: accessToken) { builder in
             builder.params = ["To": number]
+            //builder.edge = "tokyo"
         }
 
         //TwilioVoiceSDK.audioDevice = DefaultAudioDevice()
-        //Initiating the call via Twilio Voice SDK
+        // Initiating the call via Twilio Voice SDK
         call = TwilioVoiceSDK.connect(options: connectOptions, delegate: self)
         DispatchQueue.main.async {
             self.callStatus = "Connecting..."
@@ -38,7 +39,7 @@ class CallManager: NSObject, ObservableObject {
 }
 
 extension CallManager: CallDelegate {
-    //Success call
+    // Called when the call successfully connects
     func callDidConnect(call: Call) {
         print("Call connected")
         DispatchQueue.main.async {
@@ -46,7 +47,7 @@ extension CallManager: CallDelegate {
         }
     }
 
-    //Call disconnects (either by caller or callee)
+    // Called when the call disconnects (either by you or the callee)
     func callDidDisconnect(call: Call, error: Error?) {
         print("Call disconnected: \(error?.localizedDescription ?? "No error")")
         
