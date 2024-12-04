@@ -3,38 +3,45 @@ import audioop
 import base64
 import sys
 import wave
+from datetime import datetime
 
+sys.path.append("C:\\Users\\user\\PycharmProjects\\ResQ\\.venv\\Lib\\site-packages\\websockets")
+sys.path.append("C:\\Users\\user\\PycharmProjects\\ResQ\\.venv\\Lib\\site-packages\\")
+import websockets
+from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-sys.path.append("C:\\Users\\user\\PycharmProjects\\ResQ\\.venv\\Lib\\site-packages\\pywav")
-sys.path.append("C:\\Users\\user\\PycharmProjects\\ResQ\\.venv\\Lib\\site-packages\\")
-import pywav
 
-#from openai import OpenAI
-# def call_whisper(audio_file):
-#     client = OpenAI(api_key = "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")
-#     audio_file= open(audio_file, "rb")
-#     transcription = client.audio.transcriptions.create(
-#       model="whisper-1",
-#       file=audio_file
-#     )
-#     print(transcription.text)
+from channels.layers import get_channel_layer
+from openai import OpenAI
+
 
 class VoiceConsumer(AsyncWebsocketConsumer):
     """
     consumes raw voice data in JSON form receives from Twilio server
     and call VAD -> STT -> AI -> CHAT
     """
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.audio_queue = asyncio.Queue()  # 비동기 버퍼
-        self.flag = "OFF"
+        self.inbound_audio_queue = asyncio.Queue()  # 비동기 버퍼
+        self.outbound_audio_queue = asyncio.Queue()  # 비동기 버퍼
+        self.inbound_flag = "off"
+        self.outbound_flag = "off"
+        self.inbound_idx = 0
+        self.outbound_idx = 0
+        self.external_ws = None
+        self.external_ws_url = "wss://c1ba-211-179-53-26.ngrok-free.app/ws/some_path/"
+        self.max_size = 150
 
     async def connect(self):
         print("websocket connected")
+        self.external_ws = await websockets.connect(self.external_ws_url)
+        print("external websocket connected")
         await self.accept()
 
     async def disconnect(self, close_code):
+        await self.external_ws.close()
         print("websocket ends")
 
     async def receive(self, text_data):
@@ -52,9 +59,42 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             payload_base64 = data['media']['payload']
             # speaker 1: inbound(caller), speaker 2: outbound(callee)
             speaker_id = data['media']['track']
+
+            # if speaker_id == 'inbound' and self.inbound_flag == "on":
+            #     payload_decoded = base64.b64decode(payload_base64)
+            #     await self.inbound_audio_queue.put(payload_decoded)
+            #
+            # elif speaker_id == 'outbound' and self.outbound_flag == "on":
+            #     payload_decoded = base64.b64decode(payload_base64)
+            #     await self.outbound_audio_queue.put(payload_decoded)
             if speaker_id == 'inbound':
                 payload_decoded = base64.b64decode(payload_base64)
-                await self.audio_queue.put(payload_decoded)
+                await self.inbound_audio_queue.put(payload_decoded)
+
+                if self.inbound_audio_queue.qsize() > self.max_size:
+                    print("go")
+                    audio_data = b""
+                    while not self.inbound_audio_queue.empty():
+                        audio_data += await self.inbound_audio_queue.get()
+
+                    if audio_data:
+                        pcm_data = audioop.ulaw2lin(audio_data, 2)
+
+                        with wave.open("inbound.wav", "wb") as wav_file:
+                            wav_file.setnchannels(1)  # Mono
+                            wav_file.setsampwidth(2)  # 16-bit
+                            wav_file.setframerate(8000)  # 8000 Hz
+                            wav_file.writeframes(pcm_data)
+
+                        translated_sentences = await self.call_translate(await self.call_whisper("inbound.wav"))
+                        translated_dict = {
+                            "user_id": "inbound",
+                            "message": translated_sentences
+                        }
+                        translated_json = json.dumps(translated_dict)
+                        await self.chat_message(translated_json)
+
+
 
         elif event_type == "connected":
             print("Stream connected")
@@ -66,25 +106,84 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
         elif event_type == "stop":
             print("Stream ends")
-            audio_data = b""
 
-            while not self.audio_queue.empty():
-                audio_data += await self.audio_queue.get()
+        else:
+            print("Unknown event type:", event_type)
+
+    async def call_translate(self, untranslated_text):
+        untranslated_json = {
+            "message": untranslated_text
+        }
+        json_message = json.dumps(untranslated_json)
+        await self.external_ws.send(json_message)
+
+        response = await self.external_ws.recv()
+        result = json.loads(response)
+        print(result['message'])
+        return result["message"]
+
+    async def toggle_flag(self, event):
+        channel = event['channel']
+        flag = event['flag']
+
+        if channel == "inbound" and flag == "on":
+            print("on")
+            self.inbound_flag = "on"
+
+        elif channel == "inbound" and flag == "off":
+            print("off")
+            self.inbound_flag = "off"
+
+        elif channel == "outbound" and flag == "on":
+            self.outbound_flag = "on"
+
+        elif channel == "outbound" and flag == "off":
+            self.outbound_flag = "off"
+            audio_data = b""
+            while not self.outbound_audio_queue.empty():
+                audio_data += await self.outbound_audio_queue.get()
 
             pcm_data = audioop.ulaw2lin(audio_data, 2)
 
-            # WAV 파일 생성
-            with wave.open("Recording.wav", "wb") as wav_file:
+            with wave.open("outbound.wav", "wb") as wav_file:
                 wav_file.setnchannels(1)  # Mono
                 wav_file.setsampwidth(2)  # 16-bit
                 wav_file.setframerate(8000)  # 8000 Hz
                 wav_file.writeframes(pcm_data)
 
-        else:
-            print("Unknown event type:", event_type)
+            translated_sentences = await self.call_translate(await self.call_whisper("outbound.wav"))
+            translated_dict = {
+                "user_id": "outbound",
+                "message": translated_sentences
+            }
+            translated_json = json.dumps(translated_dict)
+            await self.chat_message(translated_json)
 
-    async def toggle_flag(self, event):
-        self.flag = event['flag']
+    async def call_whisper(self, audio_file_path):
+        client = OpenAI(
+            api_key="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")
+        audio_file = open(audio_file_path, "rb")
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=audio_file
+        )
+        return transcription.text
+
+    async def chat_message(self, text_data):
+        channel_layer = get_channel_layer()
+        data = json.loads(text_data)
+        user_id = data['user_id']
+        message = data['message']
+        channel_layer.group_send(
+            "chat",
+            {
+                "type": "chat_message",
+                "message": message,
+                "user_id": user_id,
+            }
+        )
+
+
 
 
 
@@ -92,6 +191,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
     """
     accept websocket connect/disconnect request and make a group-chat room, receive message from user client and broadcast it to group-chat room.
     """
+
     async def connect(self):
         print("chat begins")
         await self.channel_layer.group_add("chat", self.channel_name)
@@ -118,23 +218,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def chat_message(self, event):
         await self.send(text_data=json.dumps(event))
 
-# class AIConsumer(AsyncWebsocketConsumer):
+
+# class TestConsumer(AsyncWebsocketConsumer):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.external_ws = None
+#         self.external_ws_url = "wss://c1ba-211-179-53-26.ngrok-free.app/ws/some_path/"
+#
 #     async def connect(self):
+#         self.external_ws = await websockets.connect(self.external_ws_url)
+#         print("Connected to external WebSocket server")
 #         await self.accept()
 #
 #     async def receive(self, text_data):
-#         data = json.loads(text_data)
-#         message = data.get("message", "")
-#
-#         await
-#
-#     async def send_translate(self, event, text_data):
-#         data = json.loads(text_data)
-#         message = data.get("message", "")
-#
-#         uri = "ws://server-b.example.com/ws/endpoint/"
-#         async with websockets.connect(uri) as websocket:
-#             await websocket.send(json.dumps({"message": message}))
-#             response = await websocket.recv()
-#
-#         await self.send(text_data=json.dumps({"status": f"Message sent to server B: {response}"}))
+#         to_send = json.loads(text_data)
+#         untranslated_json = {
+#             "user_id": to_send['user_id'],
+#             "message": to_send['message']
+#         }
+#         json_message = json.dumps(untranslated_json)
+#         await self.external_ws.send(json_message)
+#         response = await self.external_ws.recv()
+#         await self.send(response)

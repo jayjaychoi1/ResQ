@@ -24,6 +24,11 @@ def yes_no_response(request):
     send("user", request.data['response'])
     return Response({ "message": "sent!"}, status.HTTP_200_OK)
 
+@csrf_exempt
+@api_view(['POST'])
+def test_post(request):
+    return Response({ "message": "sent!"}, status.HTTP_200_OK)
+
 class TwilioAPIView(APIView):
     def get(self, request):
         """
