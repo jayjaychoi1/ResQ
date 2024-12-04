@@ -1,5 +1,3 @@
-from asgiref.sync import async_to_sync
-from channels.layers import get_channel_layer
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse, HttpResponse
@@ -7,8 +5,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from twilio.twiml.voice_response import VoiceResponse, Start
+from twilio.twiml.voice_response import VoiceResponse
 
+from .config import conf_caller_identity, conf_voice_websocket_url, conf_caller_number
 from .utils.chat_utils import send
 from .utils.twilio_token import create_twilio_access_token
 # from .utils.stt_utils import transcribe_audio_vosk
@@ -28,56 +27,14 @@ class TwilioAPIView(APIView):
         """
         Create access token and return it (ref. core/utils/create_access_token)
         """
-        identity = 'jywon1128@gmail.com'
+        identity = conf_caller_identity
         token = create_twilio_access_token(identity)
         return JsonResponse({"access_token": token})
 
     def post(self, request):
         to_number = request.POST.get("To")
         response = VoiceResponse()
-        response.start().stream(url="wss://6fab-119-192-238-169.ngrok-free.app/ws/voice/", track="both")
-        response.dial(to_number, callerId="+18582076378")
+        response.start().stream(url=conf_voice_websocket_url, track="both")
+        response.dial(to_number, callerId=conf_caller_number)
         return HttpResponse(response.to_xml(), content_type='text/xml')
 
-# #VAD
-# def process_audio(request):
-#     """
-#     Detects voiced segments in an audio file using VAD.
-#     """
-#     if request.method == 'POST' and request.FILES.get('audio_file'):
-#         audio_file = request.FILES['audio_file']
-#         filepath = f'/tmp/{audio_file.name}'  # Temporary storage
-#
-#         with open(filepath, 'wb') as f:
-#             f.write(audio_file.read())
-#
-#         try:
-#             vad_segments = process_vad(filepath)
-#             return JsonResponse({'vad_result': vad_segments})
-#
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=500)
-#
-#     return JsonResponse({'error': 'Invalid request'}, status=400)
-#
-#
-# #STT
-# def process_audio_vosk(request):
-#     """
-#     Transcribes audio to text using Vosk.
-#     """
-#     if request.method == 'POST' and request.FILES.get('audio_file'):
-#         audio_file = request.FILES['audio_file']
-#         filepath = f'/tmp/{audio_file.name}'  # Temporary storage
-#
-#         with open(filepath, 'wb') as f:
-#             f.write(audio_file.read())
-#
-#         try:
-#             transcription = transcribe_audio_vosk(filepath)
-#             return JsonResponse({'transcription': transcription})
-#
-#         except Exception as e:
-#             return JsonResponse({'error': str(e)}, status=500)
-#
-#     return JsonResponse({'error': 'Invalid request'}, status=400)

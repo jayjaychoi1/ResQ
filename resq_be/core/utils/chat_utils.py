@@ -8,6 +8,6 @@ def send(user_id, message):
         {
             "type": "chat_message",
             "message": message,
-            "user": user_id,
+            "user_id": user_id,
         }
     )
