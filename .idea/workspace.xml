@@ -5,11 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3b7e392-a556-4e79-9ef0-7c71801de565" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice0.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice1.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice10.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice11.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice12.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice13.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice14.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice2.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice3.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice4.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice5.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice6.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice7.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice8.raw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resq_be/core/raw_voice9.raw" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/config/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/config/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/consumers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/output.wav" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/testSTT.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/testSTT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +86,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\user\PycharmProjects\ResQ\resq_be\core" />
       <recent name="C:\Users\user\PycharmProjects\ResQ\resq_be\core\utils" />
     </key>
   </component>
@@ -183,7 +200,7 @@
       <workItem from="1733191580703" duration="121000" />
       <workItem from="1733191867214" duration="1245000" />
       <workItem from="1733204870779" duration="2593000" />
-      <workItem from="1733208518881" duration="27411000" />
+      <workItem from="1733208518881" duration="40698000" />
     </task>
     <servers />
   </component>
@@ -192,6 +209,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ResQ$config.coverage" NAME="config Coverage Results" MODIFIED="1733209791074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resq_be/core" />
-    <SUITE FILE_PATH="coverage/ResQ$testSTT.coverage" NAME="testSTT Coverage Results" MODIFIED="1733295740562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resq_be/core" />
+    <SUITE FILE_PATH="coverage/ResQ$testSTT.coverage" NAME="testSTT Coverage Results" MODIFIED="1733307607304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resq_be/core" />
   </component>
 </project>

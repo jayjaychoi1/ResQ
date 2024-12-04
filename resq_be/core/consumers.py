@@ -1,15 +1,33 @@
+import asyncio
+import audioop
 import base64
-import openai
+import sys
+import wave
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
+sys.path.append("C:\\Users\\user\\PycharmProjects\\ResQ\\.venv\\Lib\\site-packages\\pywav")
+sys.path.append("C:\\Users\\user\\PycharmProjects\\ResQ\\.venv\\Lib\\site-packages\\")
+import pywav
+
+#from openai import OpenAI
+# def call_whisper(audio_file):
+#     client = OpenAI(api_key = "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")
+#     audio_file= open(audio_file, "rb")
+#     transcription = client.audio.transcriptions.create(
+#       model="whisper-1",
+#       file=audio_file
+#     )
+#     print(transcription.text)
 
 class VoiceConsumer(AsyncWebsocketConsumer):
     """
     consumes raw voice data in JSON form receives from Twilio server
     and call VAD -> STT -> AI -> CHAT
     """
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.audio_queue = asyncio.Queue()  # 비동기 버퍼
         self.flag = "OFF"
 
     async def connect(self):
@@ -34,8 +52,9 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             payload_base64 = data['media']['payload']
             # speaker 1: inbound(caller), speaker 2: outbound(callee)
             speaker_id = data['media']['track']
-            payload_decoded = base64.b64decode(payload_base64)
-
+            if speaker_id == 'inbound':
+                payload_decoded = base64.b64decode(payload_base64)
+                await self.audio_queue.put(payload_decoded)
 
         elif event_type == "connected":
             print("Stream connected")
@@ -47,8 +66,19 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
         elif event_type == "stop":
             print("Stream ends")
-            print("call_sid: ", data['stop'].get('callSid'))
-            print("stream_sid: ", data["streamSid"])
+            audio_data = b""
+
+            while not self.audio_queue.empty():
+                audio_data += await self.audio_queue.get()
+
+            pcm_data = audioop.ulaw2lin(audio_data, 2)
+
+            # WAV 파일 생성
+            with wave.open("Recording.wav", "wb") as wav_file:
+                wav_file.setnchannels(1)  # Mono
+                wav_file.setsampwidth(2)  # 16-bit
+                wav_file.setframerate(8000)  # 8000 Hz
+                wav_file.writeframes(pcm_data)
 
         else:
             print("Unknown event type:", event_type)

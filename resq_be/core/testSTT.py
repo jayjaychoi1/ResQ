@@ -1,37 +1,35 @@
-# import wave
-# import openai
-# audio_file_path = "utils/testv.wav"
-#
-# def binary_to_wav(binary_data, output_path, params):
-#     """
-#     Converts binary audio data back to a WAV file.
-#
-#     Args:
-#         binary_data (bytes): Binary audio data.
-#         output_path (str): Path to save the WAV file.
-#         params (tuple): Tuple of WAV file parameters (nchannels, sampwidth, framerate, nframes).
-#     """
-#     with wave.open(output_path, 'wb') as wav_file:
-#         # Set the WAV file parameters
-#         nchannels, sampwidth, framerate = params
-#         wav_file.setnchannels(nchannels)
-#         wav_file.setsampwidth(sampwidth)
-#         wav_file.setframerate(framerate)
-#         # Write the binary audio data as frames
-#         wav_file.writeframes(binary_data)
-#
-# params = (1, 2, 44100)  # Mono, 16-bit samples, 16 kHz sample rate
-# output_wav_path = "output.wav"
-# binary_data = wav_to_binary(audio_file_path)
-# binary_to_wav(binary_data, output_wav_path, params)
-#
-# print(get_wav_params(audio_file_path))
-# from openai import OpenAI
-# client = OpenAI(api_key = "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")
-#
-# audio_file= open("output.wav", "rb")
-# transcription = client.audio.transcriptions.create(
-#   model="whisper-1",
-#   file=audio_file
-# )
-# print(transcription.text)
+import audioop
+import wave
+
+import pywav
+
+
+def twilio_raw_to_wav(raw_binary_data, output_path="final.wav"):
+    """
+    Converts Twilio Media Stream raw binary data (MULAW) to a WAV file with PCM encoding.
+
+    Args:
+        raw_binary_data (bytes): Twilio Media Stream raw binary data in MULAW format.
+        output_path (str): Path to save the output WAV file.
+    """
+    try:
+        # Convert MULAW to PCM (16-bit samples)
+        pcm_data = audioop.ulaw2lin(raw_binary_data, 2)
+
+        # Write PCM data to a WAV file
+        with wave.open(output_path, 'wb') as wav_file:
+            wav_file.setnchannels(1)  # Mono channel
+            wav_file.setsampwidth(2)  # 16-bit samples (2 bytes)
+            wav_file.setframerate(8000)  # 8000 Hz sampling rate
+            wav_file.writeframes(pcm_data)
+
+        print(f"WAV file successfully written to {output_path}")
+    except Exception as e:
+        print(f"Error while converting raw binary data to WAV: {e}")
+
+
+with open("combined_raw_data.raw", "rb") as raw_file:
+    raw_binary_data = raw_file.read()
+wave_write = pywav.WavWrite("Recording.wav", 1,8000,8,7)  # 1 stands for mono channel, 8000 sample rate, 8 bit, 7 stands for MULAW encoding
+wave_write.write(raw_binary_data)
+wave_write.close()
