@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d3b7e392-a556-4e79-9ef0-7c71801de565" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/consumers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/testSTT.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/testSTT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resq_be/core/utils/resq-443606-827aa1a8ebca.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,7 +183,7 @@
       <workItem from="1733191580703" duration="121000" />
       <workItem from="1733191867214" duration="1245000" />
       <workItem from="1733204870779" duration="2593000" />
-      <workItem from="1733208518881" duration="20480000" />
+      <workItem from="1733208518881" duration="27411000" />
     </task>
     <servers />
   </component>
@@ -191,6 +192,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ResQ$config.coverage" NAME="config Coverage Results" MODIFIED="1733209791074" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resq_be/core" />
-    <SUITE FILE_PATH="coverage/ResQ$testSTT.coverage" NAME="testSTT Coverage Results" MODIFIED="1733278991506" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resq_be/core" />
+    <SUITE FILE_PATH="coverage/ResQ$testSTT.coverage" NAME="testSTT Coverage Results" MODIFIED="1733295740562" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/resq_be/core" />
   </component>
 </project>

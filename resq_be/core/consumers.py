@@ -1,7 +1,5 @@
-import asyncio
 import base64
-import sys
-
+import openai
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
@@ -10,6 +8,9 @@ class VoiceConsumer(AsyncWebsocketConsumer):
     consumes raw voice data in JSON form receives from Twilio server
     and call VAD -> STT -> AI -> CHAT
     """
+    def __init__(self):
+        super().__init__()
+        self.flag = "OFF"
 
     async def connect(self):
         print("websocket connected")
@@ -17,7 +18,6 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
     async def disconnect(self, close_code):
         print("websocket ends")
-        self.stt_task.cancel()
 
     async def receive(self, text_data):
         """
@@ -53,6 +53,8 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         else:
             print("Unknown event type:", event_type)
 
+    async def toggle_flag(self, event):
+        self.flag = event['flag']
 
 
 
