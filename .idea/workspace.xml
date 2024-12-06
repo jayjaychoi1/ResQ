@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="d3b7e392-a556-4e79-9ef0-7c71801de565" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/inbound.wav" beforeDir="false" afterPath="$PROJECT_DIR$/inbound.wav" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resq_be/core/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/config.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resq_be/core/consumers.py" beforeDir="false" afterPath="$PROJECT_DIR$/resq_be/core/consumers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -49,22 +51,22 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.config.executor": "Run",
-    "Python.testSTT.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "feature/consumers",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.idesettings.debugger.python",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.testSTT.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/consumers&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.idesettings.debugger.python&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\user\PycharmProjects\ResQ\resq_be\core" />
@@ -181,7 +183,11 @@
       <workItem from="1733191580703" duration="121000" />
       <workItem from="1733191867214" duration="1245000" />
       <workItem from="1733204870779" duration="2593000" />
-      <workItem from="1733208518881" duration="57940000" />
+      <workItem from="1733208518881" duration="63029000" />
+      <workItem from="1733359771217" duration="14395000" />
+      <workItem from="1733468837874" duration="544000" />
+      <workItem from="1733469783533" duration="1355000" />
+      <workItem from="1733491484673" duration="7864000" />
     </task>
     <servers />
   </component>
