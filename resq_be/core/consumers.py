@@ -1,18 +1,16 @@
+from resq_be.core.config import conf_TRANSLATE_SERVER_URL, conf_CHAT_SERVER_URL, conf_API_KEY, conf_LIB_PATH
+from channels.generic.websocket import AsyncWebsocketConsumer
+import sys
+sys.path.append(conf_LIB_PATH + "websockets")
+sys.path.append(conf_LIB_PATH)
+from openai import OpenAI
+import websockets
+import wave
 import asyncio
 import audioop
 import base64
-import sys
-import wave
 import webrtcvad
-
-from resq_be.core.config import conf_TRANSLATE_SERVER_URL, conf_CHAT_SERVER_URL, conf_API_KEY, conf_LIB_PATH
-
-sys.path.append(conf_LIB_PATH + "websockets")
-sys.path.append(conf_LIB_PATH)
-import websockets
-from channels.generic.websocket import AsyncWebsocketConsumer
 import json
-from openai import OpenAI
 
 class VoiceConsumer(AsyncWebsocketConsumer):
     """
@@ -21,7 +19,20 @@ class VoiceConsumer(AsyncWebsocketConsumer):
     """
 
     def __init__(self, *args, **kwargs):
+        """
+        USER_ID: inbound(user)/outbound(operator)
+        audio_queue: Each speaker has their own async queue.
+        speech_cnt: The count of speech detected for each speaker.
+        silent_cnt: The count of silent detected for each speaker.
+        Vad(): 0(weak) ~ 3(aggressive)
+        MAX_SILENT: The maximum count of silent for each speaker.
+        If silent count exceeds its value, speech ends.
+        MIN_SPEECH: The minimum count of speech for each speaker.
+        If speech count exceeds its value, meaningful speech detected.
+        CHANNEL, SAMP_WIDTH, SAMP_RATE: Constant value of audio files.
+        """
         super().__init__(*args, **kwargs)
+        self.USER_ID = {"inbound", "outbound"}
         self.audio_queue = {
             "inbound": asyncio.Queue(),
             "outbound": asyncio.Queue(),
@@ -34,7 +45,6 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             "inbound": 0,
             "outbound": 0,
         }
-        self.USER_ID = {"inbound", "outbound"}
         self.chat_server = None
         self.translate_server = None
         self.chat_server_url = conf_CHAT_SERVER_URL
@@ -48,25 +58,27 @@ class VoiceConsumer(AsyncWebsocketConsumer):
 
 
     async def connect(self):
-        print("websocket connected")
-        await self.channel_layer.group_add("chat", self.channel_name)
-        self.translate_server = await websockets.connect(self.translate_server_url)
-        self.chat_server = await websockets.connect(self.chat_server_url)
         await self.accept()
+        print("voice 2 twilio connected")
+        self.translate_server = await websockets.connect(self.translate_server_url)
+        print("voice 2 translate connected")
+        self.chat_server = await websockets.connect(self.chat_server_url)
+        print("voice 2 chat connected")
+        await self.channel_layer.group_add("chat", self.channel_name)
+
 
     async def disconnect(self, close_code):
-        await self.translate_server.close()
-        await self.chat_server.close()
         await self.channel_layer.group_discard("chat", self.channel_name)
-        print("websocket ends")
+        await self.translate_server.close()
+        print("voice 2 translate disconnected")
+        await self.chat_server.close()
+        print("voice 2 chat disconnected")
 
-    async def receive(self, rcv_json):
+    async def receive(self, text_data):
         """
-        receives raw voice data in JSON form, decode it with base 64, and save it as mp3 file. The name of file is "streamSid_sequenceNumber.mp3"
-        sequence_number = order of raw voice data
-        stream_sid = Unique Twilio stream id
+        receives raw vice data -> Voice Activity Detected -> Accumulated at async queue -> Enough size -> STT -> Translate -> Chat
         """
-        rcv_dict = json.loads(rcv_json)
+        rcv_dict = json.loads(text_data)
         event_type = rcv_dict.get("event")
 
         if event_type == "media":
@@ -80,8 +92,8 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             is_speech?
             you don't have to worry about its real speech -> cleaned by next module
             """
-            payload_decoded = base64.b64decode((payload_base64))
-            if self.vad.is_speech(payload_decoded, sample_rate=8000):
+            payload_decoded = base64.b64decode(payload_base64)
+            if self.vad.is_speech(payload_decoded, sample_rate=self.SAMP_RATE):
                 self.speech_cnt[user_id] += 1
                 self.audio_queue[user_id].put_nowait(payload_decoded)
 
@@ -95,10 +107,12 @@ class VoiceConsumer(AsyncWebsocketConsumer):
                 if self.silent_cnt[user_id] > self.MAX_SILENT:
                     self.speech_cnt[user_id] = 0
                     if len(self.audio_queue[user_id]) > self.MIN_SPEECH:
+                        self.silent_cnt[user_id] = 0
                         audio_data = b""
                         while not self.audio_queue[user_id].empty():
                             audio_data += self.audio_queue[user_id].get()
                         pcm_data = audioop.ulaw2lin(audio_data, 2)
+
                         with wave.open(user_id + ".wav", "wb") as chunk_file:
                             chunk_file.setnchannels(self.CHANNEL),  # Mono
                             chunk_file.setsampwidth(self.SAMP_WIDTH)  # 16-bit
@@ -124,7 +138,6 @@ class VoiceConsumer(AsyncWebsocketConsumer):
             print("Stream connected")
 
         elif event_type == "start":
-            print("Stream begins")
             print("call_sid: ", rcv_dict['start'].get('callSid'))
             print("stream_sid: ", rcv_dict["streamSid"])
 
@@ -176,7 +189,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
     """
     accept websocket connect/disconnect request and make a group-chat room, receive message from user client and broadcast it to group-chat room.
     """
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.translate_server = None
@@ -185,17 +197,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print("chat begins")
         await self.channel_layer.group_add("chat", self.channel_name)
-        self.translate_server = await websockets.connect(self.translate_server_url)
+        #self.translate_server = await websockets.connect(self.translate_server_url)
         await self.accept()
 
     async def disconnect(self, close_code):
         print("chat ends")
-        self.translate_server.close()
+        #self.translate_server.close()
         await self.channel_layer.group_discard("chat", self.channel_name)
         pass
 
-    async def receive(self, rcv_json):
-        rcv_dict = json.loads(rcv_json)
+    async def receive(self, text_data):
+        rcv_dict = json.loads(text_data)
         media_type = rcv_dict['media_type']
         user_id = rcv_dict['user_id']
         message = rcv_dict['message']
@@ -207,6 +219,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 {
                     'type': 'chat_message',
                     'message': translated_message,
+                    'user_id': user_id,
+                    'translated': 'yes'
+                }
+            )
+
+        elif media_type == 'emergency':
+            await self.channel_layer.group_send(
+                'chat',
+                {
+                    'type': 'chat_message',
+                    'message': message,
                     'user_id': user_id,
                     'translated': 'yes'
                 }
@@ -230,7 +253,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'type': 'chat_message',
                     'message': translated_message,
                     'user_id': user_id,
-                    'translated': 'no'
+                    'translated': 'yes'
                 }
             )
 
