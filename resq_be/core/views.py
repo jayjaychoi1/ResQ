@@ -24,5 +24,3 @@ class TwilioAPIView(APIView):
         response.start().stream(url=conf_voice_websocket_url, track="both")
         response.dial(to_number, callerId=conf_caller_number)
         return HttpResponse(response.to_xml(), content_type='text/xml')
-
-

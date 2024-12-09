@@ -55,16 +55,16 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         self.CHANNEL = 1
         self.SAMP_WIDTH = 2
         self.SAMP_RATE = 8000
-
+        self.frame_bytes = 160
 
     async def connect(self):
-        await self.accept()
-        print("voice 2 twilio connected")
         self.translate_server = await websockets.connect(self.translate_server_url)
         print("voice 2 translate connected")
         self.chat_server = await websockets.connect(self.chat_server_url)
         print("voice 2 chat connected")
         await self.channel_layer.group_add("chat", self.channel_name)
+        await self.accept()
+        print("voice 2 twilio connected")
 
 
     async def disconnect(self, close_code):
@@ -82,35 +82,42 @@ class VoiceConsumer(AsyncWebsocketConsumer):
         event_type = rcv_dict.get("event")
 
         if event_type == "media":
+            return None
             # sequence of raw voice data
             sequence_number = rcv_dict['sequenceNumber']
             payload_base64 = rcv_dict['media']['payload']
             # speaker 1: inbound(caller), speaker 2: outbound(callee)
             user_id = rcv_dict['media']['track']
+            payload_decoded = base64.b64decode(payload_base64)
 
-            """
+            """ 
             is_speech?
             you don't have to worry about its real speech -> cleaned by next module
             """
-            payload_decoded = base64.b64decode(payload_base64)
-            if self.vad.is_speech(payload_decoded, sample_rate=self.SAMP_RATE):
-                self.speech_cnt[user_id] += 1
-                self.audio_queue[user_id].put_nowait(payload_decoded)
-
+            if len(payload_decoded) == self.frame_bytes:
+                if self.vad.is_speech(payload_decoded, sample_rate=self.SAMP_RATE):
+                    self.speech_cnt[user_id] += 1
+                    self.audio_queue[user_id].put_nowait(payload_decoded)
+                    print(user_id, ": speech detected")
+                else:
+                    self.silent_cnt[user_id] += 1
+                    print(user_id, "silent detected")
             else:
-                self.silent_cnt[user_id] += 1
-
+                print("not enough voice")
             """
             enough silent detected -> process it
             """
             for user_id in self.USER_ID:
                 if self.silent_cnt[user_id] > self.MAX_SILENT:
                     self.speech_cnt[user_id] = 0
-                    if len(self.audio_queue[user_id]) > self.MIN_SPEECH:
+                    print("====long silent detected====")
+                    print("size: ", self.audio_queue[user_id].qsize())
+                    if self.audio_queue[user_id].qsize() > self.MIN_SPEECH:
+                        print("====enough speech detected====")
                         self.silent_cnt[user_id] = 0
                         audio_data = b""
                         while not self.audio_queue[user_id].empty():
-                            audio_data += self.audio_queue[user_id].get()
+                            audio_data += await self.audio_queue[user_id].get()
                         pcm_data = audioop.ulaw2lin(audio_data, 2)
 
                         with wave.open(user_id + ".wav", "wb") as chunk_file:
@@ -132,7 +139,7 @@ class VoiceConsumer(AsyncWebsocketConsumer):
                         but not enough speech accumulated -> clean queue
                         """
                         while not self.audio_queue[user_id].empty():
-                            self.audio_queue[user_id].get()
+                            await self.audio_queue[user_id].get()
 
         elif event_type == "connected":
             print("Stream connected")
@@ -197,12 +204,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         print("chat begins")
         await self.channel_layer.group_add("chat", self.channel_name)
-        #self.translate_server = await websockets.connect(self.translate_server_url)
+        self.translate_server = await websockets.connect(self.translate_server_url)
         await self.accept()
 
     async def disconnect(self, close_code):
         print("chat ends")
-        #self.translate_server.close()
+        self.translate_server.close()
         await self.channel_layer.group_discard("chat", self.channel_name)
         pass
 
