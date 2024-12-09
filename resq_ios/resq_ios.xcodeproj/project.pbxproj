@@ -22,6 +22,7 @@
 		E728EEA02CF9A28600D849B5 /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E728EE9F2CF9A28600D849B5 /* CallManager.swift */; };
 		E752BD602CFE079A00E195CE /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E752BD5F2CFE079A00E195CE /* ViewController.swift */; };
 		E7EFC3512D0101E7005351F3 /* MessageServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EFC3502D0101E6005351F3 /* MessageServer.swift */; };
+		E7EFC3532D010927005351F3 /* WebSocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7EFC3522D010927005351F3 /* WebSocketManager.swift */; };
 		EFA66DB3A976CF36EA2E7775 /* Pods_resq_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFFBFBC638A09D519AF4C870 /* Pods_resq_ios.framework */; };
 /* End PBXBuildFile section */
 
@@ -67,6 +68,7 @@
 		E752BD5F2CFE079A00E195CE /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E7A597102CD38929005E1400 /* resq_ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = resq_ios.entitlements; sourceTree = "<group>"; };
 		E7EFC3502D0101E6005351F3 /* MessageServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageServer.swift; sourceTree = "<group>"; };
+		E7EFC3522D010927005351F3 /* WebSocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketManager.swift; sourceTree = "<group>"; };
 		FA017B56F1588F8F6826E98C /* Pods-resq_iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-resq_iosTests.release.xcconfig"; path = "Target Support Files/Pods-resq_iosTests/Pods-resq_iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		FFFBFBC638A09D519AF4C870 /* Pods_resq_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_resq_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -124,6 +126,7 @@
 		5C9E58312CB6668C00243EB0 /* resq_ios */ = {
 			isa = PBXGroup;
 			children = (
+				E7EFC3522D010927005351F3 /* WebSocketManager.swift */,
 				5C9E58322CB6668C00243EB0 /* resq_iosApp.swift */,
 				E7EFC3502D0101E6005351F3 /* MessageServer.swift */,
 				E752BD5F2CFE079A00E195CE /* ViewController.swift */,
@@ -430,6 +433,7 @@
 				E7EFC3512D0101E7005351F3 /* MessageServer.swift in Sources */,
 				5C9E58352CB6668C00243EB0 /* ContentView.swift in Sources */,
 				E728EEA02CF9A28600D849B5 /* CallManager.swift in Sources */,
+				E7EFC3532D010927005351F3 /* WebSocketManager.swift in Sources */,
 				E752BD602CFE079A00E195CE /* ViewController.swift in Sources */,
 				5C9E58332CB6668C00243EB0 /* resq_iosApp.swift in Sources */,
 				E728EE9E2CF9A26D00D849B5 /* TokenService.swift in Sources */,
@@ -603,12 +607,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(PRODUCT_NAME)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -638,12 +643,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "";
 				"INFOPLIST_FILE[sdk=*]" = "";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "$(PRODUCT_NAME)";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

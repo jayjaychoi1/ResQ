@@ -10,7 +10,7 @@ import Foundation
 class MessageServer {
     static let shared = MessageServer()
     
-    private init() {} // Prevent instantiation
+    private init() {} //Prevent instantiation
     
     //Fetch Messages
     func fetchMessages(for callID: Int, completion: @escaping (Result<[String], Error>) -> Void) {

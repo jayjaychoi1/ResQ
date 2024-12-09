@@ -11,7 +11,6 @@ class NetworkManager {
     static let shared = NetworkManager()
     private let baseURL = "http://127.0.0.1:8000"
     //private let baseURL = "https://6fab-119-192-238-169.ngrok-free.app/yes_no_response/"
-
     
     // Function to start an emergency call
     func startEmergencyCall(completion: @escaping (Result<String, Error>) -> Void) {
